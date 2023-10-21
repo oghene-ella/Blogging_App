@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.ejs",
 	"scripts": {
-		"main": "nodemon main.js"
+		"blogDev": "nodemon main.js"
 	},
 	"keywords": [],
 	"author": "",
