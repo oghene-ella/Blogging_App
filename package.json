@@ -2,7 +2,7 @@
 	"name": "blog_app",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.html",
+	"main": "index.ejs",
 	"scripts": {
 		"main": "nodemon main.js"
 	},
@@ -19,11 +19,9 @@
 		"joi": "^17.11.0",
 		"jsonwebtoken": "^9.0.2",
 		"mongoose": "^7.6.3",
+		"nodemon": "^3.0.1",
 		"shortid": "^2.2.16",
 		"supertest": "^6.3.3",
 		"winston": "^3.11.0"
-	},
-	"devDependencies": {
-		"nodemon": "^3.0.1"
 	}
 }
