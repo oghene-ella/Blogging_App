@@ -1,0 +1,65 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <link href="./src/styles/global.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="./src/images/blog_logo.png">
+    <link href="./src/styles/global.css" rel="stylesheet">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;500&family=Sora:wght@400;500&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <section class="h-fit w-full flex flex-col gap-5">
+        <section class="w-full bg-bg_signup flex flex-col items-center p-5 gap-36">
+            <nav class="w-11/12 flex justify-between ">
+                <span class="flex gap-4 sm:gap-20 items-center">
+                    <h1 class="text-my_blue font-semibold font-playpen text-xl">BlogIfy</h1>
+                    <p class="text-sm text-gray-800 font-semibold underline decoration-my_blue hidden md:block">Published blogs</p>
+                </span>
+                <span class="flex gap-5 sm:gap-10">
+                    <a href="./login.html" class="border-2 border-my_blue py-1 px-4 sm:py-2 sm:px-8 text-my_blue font-semibold rounded-md cursor-pointer hover:bg-white">Login</a>
+                    <a href="./signup.html" class="bg-my_blue text-white font-semibold py-1 px-4 sm:py-2 sm:px-8 rounded-md hover:bg-light_blue cursor-pointer">Sign Up</a>
+                </span>
+            </nav>
+
+            <header class="flex flex-col gap-7 items-center">
+                <h1 class="text-3xl sm:text-5xl text-my_blue font-playpen lg:text-6xl text-center">Unlocking Words, One Blog at a Time</h1>
+                <p class="w-2/3 text-center mx-auto">Express, Share, and Inspire: Your World, Your Words – Unleash Your Storytelling Potential with Our Blogging App Today!</p>
+                <img src="./src/images/blog.svg" class="md:w-2/3"/>
+            </header>
+        </section>
+
+        <main class="w-full h-[40rem] flex flex-col items-center">
+            <section class="w-11/12 py-5 underline decoration-black flex flex-col gap-10">
+                <header class="text-my_blue font-semibold font-sora text-2xl">Published Blogs</header>
+
+                <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    <section class="border border-black p-4 rounded-lg flex flex-col gap-5">
+                        <h1 class="font-playpen text-4xl">Title</h1>
+                        <p class="font-sora text-base text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio vel quis expedita qui odio omnis repellat laudantium pariatur unde soluta.</p>
+                        <p class="font-playpen">Author</p>
+                        <span>
+                            <p class="bg-my_blue text-white px-5 py-1 w-fit rounded-full">tag</p>
+                        </span>
+                        <p>time</p>
+                    </section>
+                </section>
+            </section>
+        </main>
+
+        <footer class="bg-gray-900 text-white py-4">
+            <div class="container mx-auto text-center">
+                <p>&copy; 2023 BlogIfy. All rights reserved.</p>
+            </div>
+        </footer>
+        
+    </section>
+</body>
+
+</html>
