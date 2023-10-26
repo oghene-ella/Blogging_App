@@ -3,7 +3,7 @@ const express = require("express");
 const connectBlogMongo = require("./config/config");
 require("dotenv").config();
 
-
+const UsersRouterHandler = require("./users/user.route");
 // port
 const PORT = process.env.PORT;
 
@@ -12,6 +12,7 @@ const app = express();
 
 // use ejs as view engine
 app.set("view engine", "ejs");
+app.set("views", "views");
 
 // parses incoming requests/data to JSON payloads
 app.use(express.json());
@@ -49,6 +50,9 @@ app.get("/dashboard", (req, res) => {
 app.get("/edit", (req, res) => {
 	res.render("edit");
 });
+
+// use users routes
+app.use("/users", UsersRouterHandler)
 
 // establish connection to mongodb
 connectBlogMongo.connectBlogMongo();
