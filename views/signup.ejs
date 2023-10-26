@@ -14,7 +14,7 @@
     <section class="h-fit font-playpen">
         <main class="p-10 w-full flex gap-16  h-full justify-center items-center md:p-20">
             <img src="./src/images/blog_signup.svg"  class="hidden lg:block lg:w-1/2 h-fit"/>
-            <form class="w-full flex flex-col gap-12 lg:w-1/2">
+            <form class="w-full flex flex-col gap-12 lg:w-1/2" action="/users/signup" method="POST">
                 <section class="flex flex-col gap-5">
                     <h1 class="text-2xl sm:text-4xl lg:text-5xl">Hello!
                         <b class="text-my_blue">Welcome</b> to
@@ -25,19 +25,19 @@
                 <section class="flex flex-col gap-10">
                     <span class="flex flex-col gap-3">
                         <label class="font-sora text-base text-gray-700">First Name</label>
-                        <input type="text" placeholder="Enter your First Name" class="border border-gray-400 px-5 py-4 rounded-lg" required />
+                        <input type="text" placeholder="Enter your First Name" class="border border-gray-400 px-5 py-4 rounded-lg" required name="firstname"/>
                     </span>
                     <span class="flex flex-col gap-3">
                         <label class="font-sora text-base text-gray-700">Last Name</label>
-                        <input type="text" placeholder="Enter your Last Name" class="border border-gray-400 px-5 py-4 rounded-lg" required />
+                        <input type="text" placeholder="Enter your Last Name" class="border border-gray-400 px-5 py-4 rounded-lg" required name="lastname"/>
                     </span>
                     <span class="flex flex-col gap-3">
                         <label class="font-sora text-base text-gray-700">Email</label>
-                        <input type="email" placeholder="Enter your Email" class="border border-gray-400 px-5 py-4 rounded-lg" required />
+                        <input type="email" placeholder="Enter your Email" class="border border-gray-400 px-5 py-4 rounded-lg" required name="email"/>
                     </span>
                     <span class="flex flex-col gap-3">
                         <label class="font-sora text-base text-gray-700">Password</label>
-                        <input type="password" placeholder="Enter your Password" class="border border-gray-400 px-5 py-4 rounded-lg" required />
+                        <input type="password" placeholder="Enter your Password" class="border border-gray-400 px-5 py-4 rounded-lg" required name="password"/>
                     </span>
                 </section>
                 <button class="bg-my_blue text-white font-sora text-lg font-bold py-4 rounded-md hover:bg-light_blue">Sign Up</button>
