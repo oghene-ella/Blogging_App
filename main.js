@@ -20,7 +20,7 @@ app.set("views", "views");
 // parses incoming requests/data to JSON payloads
 app.use(express.json());
 
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 // static folder path
 app.use("/src", express.static("src"));
@@ -75,6 +75,7 @@ app.get("/signup", (req, res) => {
 app.get("/edit", (req, res) => {
 	res.render("edit");
 });
+
 
 app.get("/create", (req, res) => {
 	res.render("create");
