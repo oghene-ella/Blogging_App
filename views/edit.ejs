@@ -21,49 +21,60 @@
                 <h1 class="text-4xl font-playpen">Create a Blog</h1>
                 <a href="/dashboard" class="w-fit px-5 py-2 bg-my_blue text-white rounded-lg">Back</a>
             </span>
-            <form class="flex flex-col gap-10">
-                <span class="flex flex-col gap-4">
-                    <label>Title</label>
-                    <input type="text" placeholder="Enter the Title of your blog!" class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" required/>
-                </span>
+            <% blogs.forEach(function(blog) { %>
+                <form class="flex flex-col gap-10" action="/edit" method="post" >
+                    <span class="flex flex-col gap-4">
+                        <label>Title</label>
+                        <input type="text" placeholder=<%= blog.title%> class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" name="title"
+                        required/>
+                    </span>
 
-                <span class="flex flex-col gap-4">
-                    <label>Description</label>
-                    <input type="text" placeholder="Enter the Description of your blog!"
-                        class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" required/>
-                </span>
+                    <span class="flex flex-col gap-4">
+                        <label>Description</label>
+                        <input type="text" placeholder="Enter the Description of your blog!"
+                            class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" 
+                            name="description"
+                            required/>
+                    </span>
 
-                <span class="flex flex-col gap-4">
-                    <label>Body</label>
-                    <textarea rows="7" placeholder="Enter the Body of your blog!"
-                        class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" required>
-                    </textarea>
-                        
-                </span>
-                
-                <span class="flex flex-col gap-4">
-                    <label>Author Name</label>
-                    <input type="text" placeholder="Enter the name you want to use for your blog!"
-                        class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" required />
-                </span>
+                    <span class="flex flex-col gap-4">
+                        <label>Body</label>
+                        <textarea rows="7" placeholder="Enter the Body of your blog!"
+                            class="bg-transparent border border-my_blue px-5 py-3 rounded-lg"
+                            name="body"
+                            required>
+                        </textarea>
+                            
+                    </span>
+                    
+                    <span class="flex flex-col gap-4">
+                        <label>Author Name</label>
+                        <input type="text" placeholder="Enter the name you want to use for your blog!"
+                            class="bg-transparent border border-my_blue px-5 py-3 rounded-lg"
+                            name="author"
+                            required />
+                    </span>
 
-                <span class="flex flex-col gap-4">
-                    <label>State</label>
-                    <select class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" required>
-                        <option>Draft</option>
-                        <option>Publish</option>
-                    </select>
-                </span>
+                    <span class="flex flex-col gap-4">
+                        <label>State</label>
+                        <select class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" required
+                        name="state">
+                            <option>Draft</option>
+                            <option>Publish</option>
+                        </select>
+                    </span>
 
-                <span class="flex flex-col gap-4">
-                    <label>Tags</label>
-                    <input type="text" placeholder="Enter a tag!"
-                        class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" id="tag-input" required />
-                    <div id="tag-container" class="flex flex-wrap"></div>
-                </span>
+                    <span class="flex flex-col gap-4">
+                        <label>Tags</label>
+                        <input type="text" placeholder="Enter a tag!"
+                            class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" id="tag-input" 
+                            name="tags"/>
+                        <div id="tag-container" class="flex flex-wrap"></div>
+                    </span>
 
-                <button class="bg-my_blue text-white py-4 rounded-lg">Submit</button>
-            </form>
+                    <button class="bg-my_blue text-white py-4 rounded-lg">Submit</button>
+                </form>
+            <% }); %>
         </main>
     </section>
 

@@ -19,7 +19,7 @@
                 <h1 class="font-playpen text-3xl md:text-5xl">Welcome <%= user.firstname%>
                     </h1>
                 <span class="flex gap-5">
-                    <a href="/edit" class="bg-my_blue px-5 py-2 text-white rounded-lg">Write</a>
+                    <a href="/create" class="bg-my_blue px-5 py-2 text-white rounded-lg">Write</a>
                     <a href="/logout" class="border border-my_blue px-5 py-2 text-my_blue rounded-lg">Logout</a>
                 </span>
             </header>
@@ -33,8 +33,11 @@
                         <span class="flex justify-between">
                             <h2 class="text-3xl"><%= blog.title%></h2>
                             <span class="flex items-center gap-4">
-                                <p class="underline decoration-my_blue">Edit</p>
-                                <p class="bg-my_blue text-white px-2 py-2 rounded-md">Delete</p>
+                                <a href="/edit" class="underline decoration-my_blue cursor-pointer">Edit
+                                </a>
+                                <form action="/dashboard/del/<%=blog._id%>" method="POST">
+                                    <button class="bg-my_blue text-white px-2 py-2 rounded-md cursor-pointer">Delete</button>
+                                </form>
                             </span>
                         </span>
                         <p class="text-base"><%= blog.description%></p>
@@ -46,6 +49,8 @@
                     <% }); %>
                 <%} else { %>
                 <p>
+                    <%= message%>
+                    <br/>
                     Click on the write button to create a blog!
                 </p>
                 <% }%>

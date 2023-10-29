@@ -39,16 +39,32 @@
             <section class="w-11/12 py-5 underline decoration-black flex flex-col gap-10">
                 <header class="text-my_blue font-semibold font-sora text-2xl">Published Blogs</header>
 
-                <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    <a class="border border-black p-4 rounded-lg flex flex-col gap-5 cursor-pointer" href="/sub">
-                        <h1 class="font-playpen text-4xl">Title</h1>
-                        <p class="font-sora text-base text-gray-700">Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio vel quis expedita qui odio omnis repellat laudantium pariatur unde soluta.</p>
-                        <p class="font-playpen">Author</p>
-                        <span>
-                            <p class="bg-my_blue text-white px-5 py-1 w-fit rounded-full">tag</p>
-                        </span>
-                        <p>time</p>
-                    </a>
+                <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 no-underline" >
+                    <% blogs.forEach(function(blog, i) { %>
+                        <a class="no-underline border border-black p-4 rounded-lg flex flex-col gap-5 cursor-pointer" href="/<%= blog._id %>">
+                            <h1 class="font-playpen text-4xl no-underline"><%= blog.title%></h1>
+                            <p class="font-sora text-base text-gray-700">
+                                <%= blog.description%>
+                            </p>
+                            <p class="font-playpen">
+                                By <%= blog.author%>
+                            </p>
+                            <span class="flex gap-5">
+                                <% for (let i = 0; i < blog.tags.length; i++) { %>
+                                <p class="bg-my_blue text-white px-5 py-1 w-fit rounded-full capitalize">
+                                    <%= blog.tags[i] %>
+                                </p>
+                                <% } %>
+                            </span>
+                            <span class="flex justify-between">
+                                <p>
+                                    <%= blog.readCount%>
+                                        min read
+                                </p>
+                                <p class="text-gray-700 capitalize"><%= blog.state%></p>
+                            </span>
+                        </a>
+                    <% }); %>
                 </section>
             </section>
         </main>

@@ -3,13 +3,12 @@ require("dotenv").config();
 
 const CookieAuth = (req, res, next) => {
 	const token = req.cookies.jwt;
-	console.log(token);
+	console.log("cookie jwt: ", token)
 
 	const validToken = jwt.verify(token, process.env.JWT_TOKEN);
-	console.log(validToken);
 
 	res.locals.user = validToken;
-	console.log(res.locals.user);
+	console.log("user info: ", res.locals.user);
 
 	next();
 };

@@ -13,7 +13,6 @@ Router.post("/signup", async (req, res) => {
 			password,
 			email,
 		});
-    console.log("sign up response:", response);
 
     if(response.statusCode == 409){
         res.redirect("/404")
