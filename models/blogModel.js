@@ -25,10 +25,6 @@ const BlogSchema = new Schema({
 		type: String,
 		required: true,
 	},
-	authorId: {
-		type: ObjectId,
-		required: true,
-	},
 	body: {
 		type: String,
 		required: true,

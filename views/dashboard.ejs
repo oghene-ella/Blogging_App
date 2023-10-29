@@ -14,10 +14,8 @@
 
 <body class="bg-bg_signup flex flex-col gap-10">
     <section class="h-fit flex flex-col w-full items-center justify-center p-5">
-        <main class=" w-11/12 flex flex-col font-sora gap-14">
+        <main class=" w-11/12 flex flex-col font-sora gap-14 h-fit">
             <header class="flex items-center justify-between">
-                <h1 class="font-playpen text-3xl md:text-5xl">Welcome <%= user.firstname%>
-                    </h1>
                 <span class="flex gap-5">
                     <a href="/create" class="bg-my_blue px-5 py-2 text-white rounded-lg">Write</a>
                     <a href="/logout" class="border border-my_blue px-5 py-2 text-my_blue rounded-lg">Logout</a>
@@ -27,8 +25,7 @@
             <h3 class="underline decoration-my_blue text-black text-xl">Blogs</h3>
 
             <section class="flex flex-col gap-4">
-                <%if (blogs) {%>
-                    <% blogs.forEach(function(blog) { %>
+                <% blogs.forEach(function(blog) { %>
                     <section class="border border-gray-400 flex flex-col gap-3 p-5 rounded-xl">
                         <span class="flex justify-between">
                             <h2 class="text-3xl"><%= blog.title%></h2>
@@ -46,14 +43,7 @@
                             <p class="font-semibold text-gray-600"><%= blog.state%></p>
                         </span>
                     </section>
-                    <% }); %>
-                <%} else { %>
-                <p>
-                    <%= message%>
-                    <br/>
-                    Click on the write button to create a blog!
-                </p>
-                <% }%>
+                <% }); %>
             </section>
         </main>
     </section>

@@ -35,13 +35,13 @@
             </header>
         </section>
 
-        <main class="w-full h-[40rem] flex flex-col items-center">
+        <main class="w-full h-fit flex flex-col items-center">
             <section class="w-11/12 py-5 underline decoration-black flex flex-col gap-10">
                 <header class="text-my_blue font-semibold font-sora text-2xl">Published Blogs</header>
 
                 <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 no-underline" >
                     <% blogs.forEach(function(blog, i) { %>
-                        <a class="no-underline border border-black p-4 rounded-lg flex flex-col gap-5 cursor-pointer" href="/<%= blog._id %>">
+                        <a class="no-underline border border-black p-4 rounded-lg flex flex-col gap-5 cursor-pointer" href="/published/<%= blog._id %>">
                             <h1 class="font-playpen text-4xl no-underline"><%= blog.title%></h1>
                             <p class="font-sora text-base text-gray-700">
                                 <%= blog.description%>
