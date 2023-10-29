@@ -4,6 +4,9 @@ const connectBlogMongo = require("./config/config");
 require("dotenv").config();
 
 const UsersRouterHandler = require("./users/user.route");
+const BlogRouteHandler = require("./blogs/blog.routes");
+
+
 // port
 const PORT = process.env.PORT;
 
@@ -43,9 +46,9 @@ app.get("/signup", (req, res) => {
 
 
 // get method for the dashboard page
-app.get("/dashboard", (req, res) => {
-	res.render("dashboard");
-});
+// app.get("/dashboard", (req, res) => {
+// 	res.render("dashboard");
+// });
 
 app.get("/edit", (req, res) => {
 	res.render("edit");
@@ -53,6 +56,22 @@ app.get("/edit", (req, res) => {
 
 // use users routes
 app.use("/users", UsersRouterHandler)
+app.use("/dashboard", BlogRouteHandler);
+
+// logout
+app.get("/logout", (req, res) => {
+	res.clearCookie("jwt");
+	res.redirect("/");
+})
+
+// error handling
+app.use((err, req, res, next) => {
+	console.error(err.stack);
+	res.status(500).json({
+		data: null,
+		error: "Server Error",
+	});
+});
 
 // establish connection to mongodb
 connectBlogMongo.connectBlogMongo();
