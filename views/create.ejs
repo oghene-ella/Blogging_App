@@ -21,7 +21,7 @@
                 <h1 class="text-4xl font-playpen">Create a Blog</h1>
                 <a href="/dashboard" class="w-fit px-5 py-2 bg-my_blue text-white rounded-lg">Back</a>
             </span>
-            <form class="flex flex-col gap-10" action="/dashboard/add" method="post" >
+            <form class="flex flex-col gap-10" action="/dashboard/create" method="POST" >
                 <span class="flex flex-col gap-4">
                     <label>Title</label>
                     <input type="text" placeholder="Enter the Title of your blog!" class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" name="title"
@@ -68,7 +68,7 @@
                     <input type="text" placeholder="Enter a tag!"
                         class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" id="tag-input" 
                         name="tags"/>
-                    <div id="tag-container" class="flex flex-wrap"></div>
+                    <div id="tag-container" class="flex flex-wrap" name="tags"></div>
                 </span>
 
                 <button type="submit" class="bg-my_blue text-white py-4 rounded-lg">Submit</button>

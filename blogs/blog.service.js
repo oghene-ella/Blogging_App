@@ -51,7 +51,7 @@ const deleteBlog = async (user, req_id) => {
 		}
 		console.log("blog id:", req_id);
 
-		const deleteBlog = await BlogModel.findOneAndDelete(req_id);
+		const deleteBlog = await BlogModel.findByIdAndDelete(req_id);
 
 		console.log("del blog", deleteBlog);
 
@@ -64,6 +64,8 @@ const deleteBlog = async (user, req_id) => {
 		}
 
 		const BlogList = await BlogModel.find({ userId: user._id });
+
+		console.log("blog list: ", BlogList)
 
 		return {
 			statusCode: 200,
