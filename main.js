@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const UsersRouterHandler = require("./users/user.route");
 const BlogRouteHandler = require("./blogs/blog.routes");
-
+const blogService = require("./blogs/blog.service");
 
 // port
 const PORT = process.env.PORT;
@@ -26,13 +26,38 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/src", express.static("src"));
 
 // get landing page  route
-app.get("/", (req, res) => {
-	res.render("index");
+// app.get("/", (req, res) => {
+// 	res.render("index");
+// });
+
+app.get("/", async (req, res) => {
+	// const req_id = req.params.req_id;
+	const response = await blogService.getPublishedBlogs();
+
+	if (response.statusCode == 409) {
+		res.redirect("/404");
+	} else if (response.statusCode == 200) {
+		res.render("index", { blogs: response.blogs });
+	}
 });
 
-app.get("/sub", (req, res) => {
-	res.render("sub_page");
+app.get("/:req_id", async (req, res) => {
+	const req_id = req.params.req_id;
+	const response = await blogService.getSinglePublishedBlogs(req_id);
+
+	console.log("request id", req_id);
+	console.log("response single", response)
+
+	if (response.statusCode == 409) {
+		res.redirect("/404");
+	} else if (response.statusCode == 200) {
+		res.render("sub", { blogs: response.blog });
+	}
 });
+
+// app.get("/sub", (req, res) => {
+// 	res.render("sub");
+// });
 
 // get method for the login page
 app.get("/login", (req, res) => {
@@ -44,7 +69,6 @@ app.get("/signup", (req, res) => {
 	res.render("signup");
 });
 
-
 // get method for the dashboard page
 // app.get("/dashboard", (req, res) => {
 // 	res.render("dashboard");
@@ -55,14 +79,17 @@ app.get("/edit", (req, res) => {
 });
 
 // use users routes
-app.use("/users", UsersRouterHandler)
+app.use("/users", UsersRouterHandler);
 app.use("/dashboard", BlogRouteHandler);
+app.use("/create", (req, res) => {
+	res.render("/create");
+});
 
 // logout
 app.get("/logout", (req, res) => {
 	res.clearCookie("jwt");
 	res.redirect("/");
-})
+});
 
 // error handling
 app.use((err, req, res, next) => {
