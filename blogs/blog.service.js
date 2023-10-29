@@ -20,13 +20,14 @@ const createBlog = async (user, req_body) => {
 			userId: user._id,
 		});
 
-		console.log("new blog: ", newBlog.tags)
+		console.log("new blog: ", newBlog)
 
 		return {
 			message: "Blog successfully created",
 			statusCode: 201,
 			success: true,
 			newBlog,
+			user,
 		};
 	} catch (err) {
 		console.log("error o:", err)
