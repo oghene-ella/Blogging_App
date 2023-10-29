@@ -13,7 +13,7 @@ Router.post("/signup", async (req, res) => {
 			password,
 			email,
 		});
-    console.log("response:", response);
+    console.log("sign up response:", response);
 
     if(response.statusCode == 409){
         res.redirect("/404")
@@ -21,18 +21,16 @@ Router.post("/signup", async (req, res) => {
     else if (response.statusCode == 500) {
         res.redirect('/404')
     }
-
     else {
-        console.log("hello!");
         res.redirect('/login');
     }
 })
 
 Router.post("/login", async (req, res) => {
-    const { password, email } = req.body;
+    const { password, email, firstname } = req.body;
 
     const response = await userService.Login({
-        password, email
+        password, email, firstname
     })
 
     if(response.statusCode == 404){
@@ -46,7 +44,7 @@ Router.post("/login", async (req, res) => {
 	} 
     else {
         res.cookie("jwt", response.token)
-        res.redirect("/dashboard/blog");
+        res.redirect("/dashboard");
 	}
 })
 

@@ -26,9 +26,6 @@ const SignUp = async ({ firstname, lastname, password, email }) => {
 			{ _id: newUser._id, email: newUser.email },
 			process.env.JWT_TOKEN,
 		);
-        console.log("existingemail:", checkExistingEmail);
-        console.log("newuser:", newuser);
-        console.log("token:", token);
 
 		return {
 			statusCode: 201,
@@ -74,6 +71,7 @@ const Login = async ({email, password}) => {
             {
                 email: existingUser.email,
                 _id: existingUser._id,
+                firstname: existingUser.firstname,
             },
             process.env.JWT_TOKEN,
             { expiresIn: "1h" },
