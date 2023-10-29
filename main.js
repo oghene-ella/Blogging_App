@@ -20,7 +20,7 @@ app.set("views", "views");
 // parses incoming requests/data to JSON payloads
 app.use(express.json());
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 
 // static folder path
 app.use("/src", express.static("src"));
@@ -41,8 +41,9 @@ app.get("/", async (req, res) => {
 	}
 });
 
-app.get("/:req_id", async (req, res) => {
+app.get("/published/:req_id", async (req, res) => {
 	const req_id = req.params.req_id;
+	
 	const response = await blogService.getSinglePublishedBlogs(req_id);
 
 	console.log("request id", req_id);
@@ -51,13 +52,10 @@ app.get("/:req_id", async (req, res) => {
 	if (response.statusCode == 409) {
 		res.redirect("/404");
 	} else if (response.statusCode == 200) {
-		res.render("sub", { blogs: response.blog });
+		res.render("sub", { blogs: response.blogList });
 	}
 });
 
-// app.get("/sub", (req, res) => {
-// 	res.render("sub");
-// });
 
 // get method for the login page
 app.get("/login", (req, res) => {
@@ -78,12 +76,13 @@ app.get("/edit", (req, res) => {
 	res.render("edit");
 });
 
+app.get("/create", (req, res) => {
+	res.render("create");
+});
+
 // use users routes
 app.use("/users", UsersRouterHandler);
 app.use("/dashboard", BlogRouteHandler);
-app.use("/create", (req, res) => {
-	res.render("/create");
-});
 
 // logout
 app.get("/logout", (req, res) => {

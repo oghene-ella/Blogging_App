@@ -16,12 +16,11 @@ const createBlog = async (user, req_body) => {
 			description: req_body.description,
 			author: req_body.author,
 			body: req_body.body,
-			state: req_body.state,
-			tags: req_body.tags,
+			tags: [...req_body.tags],
 			userId: user._id,
 		});
 
-		console.log("new blog: ", newBlog)
+		console.log("new blog: ", newBlog.tags)
 
 		return {
 			message: "Blog successfully created",
@@ -184,9 +183,9 @@ const getPublishedBlogs = async () => {
 
 const getSinglePublishedBlogs = async (req_id) => {
 	try {
-		const blogList = await BlogModel.find({_id: req_id._id});
+		const blogList = await BlogModel.find({_id: req_id});
 
-		console.log("single blog", blog);
+		console.log("single blog", blogList);
 
 		return {
 			statusCode: 200,

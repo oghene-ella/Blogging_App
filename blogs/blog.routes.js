@@ -13,6 +13,8 @@ Router.get("/", async (req, res) => {
 	const user = res.locals.user;
 	const response = await blogService.getBlogs(user);
 
+	console.log(response);
+
 	if (response.statusCode == 409) {
 		res.redirect("/404"); 
 	} else if (response.statusCode == 200) {
@@ -38,7 +40,7 @@ Router.post("/create", async (req, res) => {
 	}
 });
 
-Router.post("/edit", async (req, res) => {
+Router.post("/add", async (req, res) => {
 	const req_body = req.body;
 	const user = res.locals.user;
 
@@ -47,6 +49,27 @@ Router.post("/edit", async (req, res) => {
 	console.log("user for update", user);
 
 	const response = await blogService.createBlog(user, req_body);
+
+	console.log("response from post add:", response);
+
+	if (response.statusCode == 422) {
+		res.redirect("/404");
+	} else if (response.statusCode == 409) {
+		res.redirect("/404");
+	} else if (response.statusCode == 201) {
+		res.render("dashboard", { blogs: response.blog, user: response.user });
+	}
+});
+
+Router.post("/edit", async (req, res) => {
+	const req_body = req.body;
+	const user = res.locals.user;
+
+	console.log("req body update", req_body);
+
+	console.log("user for update", user);
+
+	const response = await blogService.updateBlog(user, req_body);
 
 	console.log("response from post add:", response);
 
