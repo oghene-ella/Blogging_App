@@ -11,12 +11,17 @@ const createBlog = async (user, req_body) => {
 		}
 		console.log("req body: ", req_body);
 
+		console.log("actual tags: ", req_body.tags)
+
+		const tags = Array.isArray(req_body.tags) ? req_body.tags : [req_body.tags];
+		console.log("tags: ", tags);
+
 		const newBlog = await BlogModel.create({
 			title: req_body.title,
 			description: req_body.description,
 			author: req_body.author,
 			body: req_body.body,
-			tags: [...req_body.tags],
+			tags: [...tags],
 			userId: user._id,
 		});
 
@@ -84,6 +89,54 @@ const deleteBlog = async (user, req_id) => {
 	}
 };
 
+const PublishBlog = async (user, req_id) => {
+	try {
+		if (!req_id) {
+			return {
+				statusCode: 422,
+				message: "No Blog to Delete",
+				success: false,
+			};
+		}
+		console.log("blog id:", req_id);
+
+		const publishBlog = await BlogModel.findByIdAndUpdate(req_id,
+			{
+				state: "published"
+			}
+		);
+
+		console.log("publish blog", publishBlog);
+
+		if (!publishBlog) {
+			return {
+				statusCode: 406,
+				message: "Unable to publish Blog",
+				success: false,
+			};
+		}
+
+		const BlogList = await BlogModel.find({ userId: user._id });
+
+		console.log("blog list: ", BlogList);
+
+		return {
+			statusCode: 200,
+			message: "Blog published successfully",
+			success: true,
+			BlogList,
+		};
+	} catch (err) {
+		console.log("del error: ", err);
+		return {
+			statusCode: 409,
+			message: "Something went wrong with deleting the blog, try again later.",
+			err,
+			success: false,
+		};
+	}
+};
+
 const getBlogs = async (user) => {
 	try {
 		const blog = await BlogModel.find({ userId: user._id });
@@ -127,7 +180,7 @@ const updateBlog = async ({ req_body, user }) => {
 		}
 
 		const updateBlog = await BlogModel.findByIdAndUpdate(user._id, {
-			status: user.status,
+			$set: req.body,
 		});
 
 		if (!updateBlog) {
@@ -180,6 +233,37 @@ const getPublishedBlogs = async () => {
 				"Something went wrong with getting the published blog list, try again later.",
 			error,
 			success: false,
+			
+		};
+	}
+};
+
+const getDraftBlogs = async () => {
+	try {
+		const blogs = await BlogModel.find({ state: "draft" });
+
+		if (blogs.length === 0) {
+			return {
+				statusCode: 200,
+				message: "There are no blog's",
+				blogs: blogs,
+			};
+		}
+
+		if (blogs.length != 0) {
+			return {
+				statusCode: 200,
+				message: null,
+				blogs: blogs,
+			};
+		}
+	} catch (error) {
+		return {
+			statusCode: 409,
+			message:
+				"Something went wrong with getting the drafted blog list, try again later.",
+			error,
+			success: false,
 		};
 	}
 };
@@ -212,6 +296,8 @@ module.exports = {
 	deleteBlog,
 	getBlogs,
 	updateBlog,
+	getDraftBlogs,
 	getPublishedBlogs,
 	getSinglePublishedBlogs,
+	PublishBlog,
 };
