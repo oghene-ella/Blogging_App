@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard Page</title>
-    <link rel="icon" type="image/png" href="./src/images/blog_logo.png">
-    <link href="./src/styles/global.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../src/images/blog_logo.png">
+    <link href="../src/styles/global.css" rel="stylesheet">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -26,11 +26,17 @@
             
             <h3 class="underline decoration-my_blue text-black text-xl">Blogs</h3>
 
+            <span class="flex gap-14">
+                <a href="/dashboard">All Blogs (<%= blogs.length%>)</a>
+                <a href="/dashboard/draft">Drafts (<%= blogs.filter(blog=> blog.state === 'draft').length %>)</a>
+                <a href="/dashboard/published">Published (<%= blogs.filter(blog=> blog.state === 'published').length %>) </a>
+            </span>
+
             <section class="flex flex-col gap-4">
                 <% blogs.forEach(function(blog) { %>
                     <section class="border border-gray-400 flex flex-col gap-3 p-5 rounded-xl">
                         <span class="flex justify-between">
-                            <h2 class="text-3xl"><%= blog.title%></h2>
+                            <h2 class="text-3xl capitalize"><%= blog.title%></h2>
                             <span class="flex items-center gap-4">
                                 <a href="/edit" class="underline decoration-my_blue cursor-pointer">Edit
                                 </a>
@@ -39,10 +45,19 @@
                                 </form>
                             </span>
                         </span>
-                        <p class="text-base"><%= blog.description%></p>
+                        <p class="text-base capitalize"><%= blog.description%></p>
                         <span class="flex justify-between">
-                            <p class="text-base text-my_blue font-semibold">By <%= blog.author%></p>
-                            <p class="font-semibold text-gray-600"><%= blog.state%></p>
+                            <p class="text-base text-my_blue font-semibold capitalize">By <%= blog.author%></p>
+                            <span class="flex gap-5 items-center flex-row-reverse">
+                                <form action="/dashboard/publish/<%=blog._id%>" method="POST">
+                                    <% if (blog.state !=='published' ) { %>
+                                        <button class="bg-green-400 text-white px-4 py-2 rounded-lg">Publish</button>
+                                        <% } %>
+                                </form>
+                                <p class="font-semibold text-gray-600 capitalize">
+                                    <%= blog.state%>
+                                </p>
+                            </span>
                         </span>
                     </section>
                 <% }); %>

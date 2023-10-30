@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Write Blog</title>
-    <link rel="icon" type="image/png" href="./src/images/blog_logo.png">
-    <link href="./src/styles/global.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../src/images/blog_logo.png">
+    <link href="../src/styles/global.css" rel="stylesheet">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,11 +21,10 @@
                 <h1 class="text-4xl font-playpen">Create a Blog</h1>
                 <a href="/dashboard" class="w-fit px-5 py-2 bg-my_blue text-white rounded-lg">Back</a>
             </span>
-            <% blogs.forEach(function(blog) { %>
-                <form class="flex flex-col gap-10" action="/edit" method="post" >
+                <form class="flex flex-col gap-10" action="/dashboard/edit" method="POST" >
                     <span class="flex flex-col gap-4">
                         <label>Title</label>
-                        <input type="text" placeholder=<%= blog.title%> class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" name="title"
+                        <input type="text" placeholder="Edit your title" class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" name="title"
                         required/>
                     </span>
 
