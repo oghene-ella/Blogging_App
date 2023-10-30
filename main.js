@@ -84,7 +84,7 @@ app.get("/create", (req, res) => {
 // use users routes
 app.use("/users", UsersRouterHandler);
 app.use("/dashboard", BlogRouteHandler);
-app.use("/dashboard/create", BlogRouteHandler);
+// app.use("/dashboard/create", BlogRouteHandler);
 
 // logout
 app.get("/logout", (req, res) => {
