@@ -147,6 +147,7 @@ const getBlogs = async (user) => {
 				message: "There are no blog's",
 				blog: blog,
 				user,
+				blogCount: 0,
 			};
 		}
 
@@ -156,6 +157,7 @@ const getBlogs = async (user) => {
 				message: null,
 				blog: blog,
 				user,
+				blogCount: blog.length,
 			};
 		}
 	} catch (error) {
@@ -169,19 +171,28 @@ const getBlogs = async (user) => {
 	}
 };
 
-const updateBlog = async ({ req_body, user }) => {
+const updateBlog = async (req_id, req_body, user) => {
 	try {
 		if (!req_body) {
 			return {
 				statusCode: 422,
-				message: "Add a Blog",
+				message: "Update your Blog",
 				success: false,
 			};
 		}
 
-		const updateBlog = await BlogModel.findByIdAndUpdate(user._id, {
-			$set: req.body,
-		});
+		const updateBlog = await BlogModel.findByIdAndUpdate(
+			{ _id: req_id },
+			{
+				title: req_body.title,
+				description: req_body.description,
+				body: req_body.body,
+				author: req_body.author,
+				tags: req_body.tags,
+			},
+		);
+
+		console.log("updated blog: ", updateBlog);
 
 		if (!updateBlog) {
 			return {
@@ -194,7 +205,8 @@ const updateBlog = async ({ req_body, user }) => {
 		return {
 			statusCode: 204,
 			message: "Blog has been Updated Successfully",
-			updateBlog: [updateBlog],
+			updateBlog: updateBlog,
+			user,
 		};
 	} catch (err) {
 		return {
@@ -215,6 +227,7 @@ const getPublishedBlogs = async () => {
 				statusCode: 200,
 				message: "There are no blog's",
 				blogs: blogs,
+				blogCount: 0,
 			};
 		}
 
@@ -223,6 +236,7 @@ const getPublishedBlogs = async () => {
 				statusCode: 200,
 				message: null,
 				blogs: blogs,
+				blogCount: blogs.length,
 			};
 		}
 
@@ -233,7 +247,7 @@ const getPublishedBlogs = async () => {
 				"Something went wrong with getting the published blog list, try again later.",
 			error,
 			success: false,
-			
+
 		};
 	}
 };
@@ -247,16 +261,17 @@ const getDraftBlogs = async () => {
 				statusCode: 200,
 				message: "There are no blog's",
 				blogs: blogs,
+				blogCount: 0,
 			};
 		}
 
-		if (blogs.length != 0) {
-			return {
-				statusCode: 200,
-				message: null,
-				blogs: blogs,
-			};
-		}
+		return {
+			statusCode: 200,
+			message: null,
+			blogs: blogs,
+			blogCount: blogs.length,
+		};
+
 	} catch (error) {
 		return {
 			statusCode: 409,

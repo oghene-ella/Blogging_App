@@ -22,7 +22,7 @@ Router.get("/", async (req, res) => {
 	} else if (response.statusCode == 200) {
 		res.render(
 			"dashboard",
-			{ blogs: response.blog, user: response.user }
+			{ blogs: response.blog, user: response.user, blogCount: response.blogCount }
 		);
 	}
 });
@@ -37,7 +37,7 @@ Router.get("/published", async (req, res) => {
 	} else if (response.statusCode == 200) {
 		res.render(
 			"dashboard",
-			{ blogs: response.blogs}
+			{ blogs: response.blogs, blogCount: response.blogCount}
 		);
 	}
 });
@@ -50,7 +50,7 @@ Router.get("/draft", async (req, res) => {
 	if (response.statusCode == 409) {
 		res.redirect("/404");
 	} else if (response.statusCode == 200) {
-		res.render("dashboard", { blogs: response.blogs });
+		res.render("dashboard", { blogs: response.blogs, blogCount: response.blogCount});
 	}
 });
 
@@ -88,27 +88,52 @@ Router.post("/create", async (req, res) => {
 // 	}
 // });
 
-Router.post("/edit", async (req, res) => {
+// Router.get("/edit", async (req, res) => {
+// 	const req_body = req.body;
+// 	const user = res.locals.user;
+
+// 	console.log("req body update", req_body);
+
+// 	console.log("user for update", user);
+
+// 	const response = await blogService.updateBlog(user, req_body);
+
+// 	console.log("response from post add:", response);
+
+// 	if (response.statusCode == 422) {
+// 		res.redirect("/404");
+// 	} else if (response.statusCode == 406) {
+// 		res.redirect("/404");
+// 	} else if (response.statusCode == 409) {
+// 		res.redirect("/404");
+// 	} else {
+// 		// res.redirect("/dashboard");
+// 		res.render("dashboard", { blogs: response.blog, user: response.user });
+// 	}
+// });
+
+Router.post("/edit/:req_id", async (req, res) => {
 	const req_body = req.body;
+	console.log("request body", req_body);
+
 	const user = res.locals.user;
+	console.log("user o", user);
 
-	console.log("req body update", req_body);
+	const req_id = req.params.req_id;
+	console.log("request id: ", req_id);
 
-	console.log("user for update", user);
+	const response = await blogService.updateBlog(req_id, req_body, user);
 
-	const response = await blogService.updateBlog(user, req_body);
-
-	console.log("response from post add:", response);
+	console.log("response single", response);
 
 	if (response.statusCode == 422) {
 		res.redirect("/404");
 	} else if (response.statusCode == 406) {
 		res.redirect("/404");
-	} else if (response.statusCode == 409) {
+	} else if (response.statusCode == 409 ) {
 		res.redirect("/404");
 	} else {
-		// res.redirect("/dashboard");
-		res.render("dashboard", { blogs: response.blog, user: response.user });
+		res.render("edit");
 	}
 });
 
