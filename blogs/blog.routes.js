@@ -112,6 +112,20 @@ Router.post("/create", async (req, res) => {
 // 	}
 // });
 
+Router.get("/edit/:blog_id", async (req, res) => {
+	const blog_id = req.params.blog_id;
+	const user = res.locals.user;
+
+	const response = await blogService.getBlog(user, blog_id);
+	console.log("edit response: ", response);
+
+	if (response.statusCode == 409) {
+		res.redirect("/404");
+	} else {
+		res.render("edit", {blog: response.blog});
+	}
+});
+
 Router.post("/edit/:req_id", async (req, res) => {
 	const req_body = req.body;
 	console.log("request body", req_body);
@@ -133,7 +147,7 @@ Router.post("/edit/:req_id", async (req, res) => {
 	} else if (response.statusCode == 409 ) {
 		res.redirect("/404");
 	} else {
-		res.render("edit");
+		res.redirect("/dashboard");
 	}
 });
 

@@ -13,8 +13,9 @@ const createBlog = async (user, req_body) => {
 
 		console.log("actual tags: ", req_body.tags)
 
-		const tags = Array.isArray(req_body.tags) ? req_body.tags : [req_body.tags];
-		console.log("tags: ", tags);
+		const tags = req_body.tags.split(',').map(tag => tag.trim());
+
+		console.log("split tags: ", tags)
 
 		const newBlog = await BlogModel.create({
 			title: req_body.title,
@@ -171,6 +172,31 @@ const getBlogs = async (user) => {
 	}
 };
 
+const getBlog = async (user, blog_id) => {
+	try {
+		const getBlog = await BlogModel.findOne({
+			userId: user._id,
+			_id: blog_id,
+		});
+
+		return {
+			statusCode: 200,
+			message: "Blog was successfully retrieved",
+			blog: getBlog,
+			user,
+		};
+
+	} catch (error) {
+		return {
+			statusCode: 409,
+			message:
+				"Something went wrong with getting the blog list, try again later.",
+			error,
+			success: false,
+		};
+	}
+};
+
 const updateBlog = async (req_id, req_body, user) => {
 	try {
 		if (!req_body) {
@@ -310,6 +336,7 @@ module.exports = {
 	createBlog,
 	deleteBlog,
 	getBlogs,
+	getBlog,
 	updateBlog,
 	getDraftBlogs,
 	getPublishedBlogs,
