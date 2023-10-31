@@ -25,10 +25,6 @@ app.use(express.urlencoded({ extended: false }));
 // static folder path
 app.use("/src", express.static("src"));
 
-// get landing page  route
-// app.get("/", (req, res) => {
-// 	res.render("index");
-// });
 
 app.get("/", async (req, res) => {
 	// const req_id = req.params.req_id;
@@ -67,19 +63,42 @@ app.get("/signup", (req, res) => {
 	res.render("signup");
 });
 
-// get method for the dashboard page
-// app.get("/dashboard", (req, res) => {
-// 	res.render("dashboard");
-// });
 
-app.get("/edit", (req, res) => {
-	res.render("edit");
-});
+// app.get("/edit/:req_id", async (req, res) => {
+// 	const req_body = req.body;
+// 	console.log("request id", req_body);
+
+// 	const user = res.locals.user;
+// 	console.log("user o", user);
+
+// 	const req_id = res.params.id;
+// 	console.log("request id: ", req_id);
+
+// 	const response = await blogService.updateBlog(req_id, req_body, user);
+
+// 	console.log("response single", response);
+
+// 	if (response.statusCode == 422) {
+// 		res.redirect("/404");
+// 	} else if (response.statusCode == 406) {
+// 		res.redirect("/404");
+// 	} else if (response.statusCode == 409 ) {
+// 		res.redirect("/404");
+// 	} else {
+// 		res.render("edit");
+// 	}
+// });
 
 
 app.get("/create", (req, res) => {
 	res.render("create");
 });
+
+// app.get("/dashboard/edit:req_id", (req, res) => {
+// 	res.render("edit");
+// });
+
+app.post("/dashboard", BlogRouteHandler);
 
 // use users routes
 app.use("/users", UsersRouterHandler);
