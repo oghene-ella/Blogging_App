@@ -4,6 +4,7 @@ module.exports = {
 	content: [
 		"./src/**/*.{html,js}",
 		"./views/*.ejs",
+		"./blogs/*.js",
 	],
 	theme: {
 		extend: {
