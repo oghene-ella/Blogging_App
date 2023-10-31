@@ -696,6 +696,14 @@ video {
   gap: 1.75rem;
 }
 
+.gap-8 {
+  gap: 2rem;
+}
+
+.gap-6 {
+  gap: 1.5rem;
+}
+
 .rounded {
   border-radius: 0.25rem;
 }
@@ -927,6 +935,10 @@ video {
 
 .decoration-my_blue {
   text-decoration-color: #407BFF;
+}
+
+.underline-offset-auto {
+  text-underline-offset: auto;
 }
 
 .hover\:bg-light_blue:hover {
