@@ -929,14 +929,6 @@ video {
   text-decoration-color: #407BFF;
 }
 
-.filter {
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-}
-
-.active {
-  text-decoration: underline;
-}
-
 .hover\:bg-light_blue:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(122 163 255 / var(--tw-bg-opacity));
