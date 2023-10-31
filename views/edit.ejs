@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Blog</title>
+    <title>Edit Blog Page</title>
     <link rel="icon" type="image/png" href="../src/images/blog_logo.png">
-    <link href="../src/styles/global.css" rel="stylesheet">
+    <link href="/src/styles/global.css" rel="stylesheet">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@400;500&family=Sora:wght@400;500&display=swap"
         rel="stylesheet">
+
 </head>
 
 <body class="bg-bg_signup">
@@ -21,11 +22,12 @@
                 <h1 class="text-4xl font-playpen">Edit a Blog</h1>
                 <a href="/dashboard" class="w-fit px-5 py-2 bg-my_blue text-white rounded-lg">Back</a>
             </span>
-                <form class="flex flex-col gap-10" action="/dashboard/edit" method="POST" >
+                <form class="flex flex-col gap-10" action="/dashboard/edit/<%= blog._id %>" method="POST" >
                     <span class="flex flex-col gap-4">
                         <label>Title</label>
                         <input type="text" placeholder="Edit your title" class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" name="title"
-                        required/>
+                        required 
+                        value="<%= blog.title %>"/>
                     </span>
 
                     <span class="flex flex-col gap-4">
@@ -33,7 +35,8 @@
                         <input type="text" placeholder="Enter the Description of your blog!"
                             class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" 
                             name="description"
-                            required/>
+                            required
+                            value="<%= blog.description %>"/>
                     </span>
 
                     <span class="flex flex-col gap-4">
@@ -41,7 +44,8 @@
                         <textarea rows="7" placeholder="Enter the Body of your blog!"
                             class="bg-transparent border border-my_blue px-5 py-3 rounded-lg"
                             name="body"
-                            required>
+                            required
+                            placeholder="<%= blog.body %>">
                         </textarea>
                             
                     </span>
@@ -51,23 +55,16 @@
                         <input type="text" placeholder="Enter the name you want to use for your blog!"
                             class="bg-transparent border border-my_blue px-5 py-3 rounded-lg"
                             name="author"
-                            required />
-                    </span>
-
-                    <span class="flex flex-col gap-4">
-                        <label>State</label>
-                        <select class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" required
-                        name="state">
-                            <option>Draft</option>
-                            <option>Publish</option>
-                        </select>
+                            required
+                            value="<%= blog.author %>" />
                     </span>
 
                     <span class="flex flex-col gap-4">
                         <label>Tags</label>
                         <input type="text" placeholder="Enter a tag!"
                             class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" id="tag-input" 
-                            name="tags"/>
+                            name="tags" 
+                            value="<%= blog.tags %>"/>
                         <div id="tag-container" class="flex flex-wrap"></div>
                     </span>
 

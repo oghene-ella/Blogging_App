@@ -43,10 +43,10 @@
                         <span class="flex justify-between">
                             <h2 class="text-3xl capitalize"><%= blog.title%></h2>
                             <span class="flex items-center gap-4">
-                                <form action="/dashboard/edit/<%=blog._id%>" method="POST">
+                                <a href="/dashboard/edit/<%=blog._id%>">
                                     <button type="submit" class="underline decoration-my_blue cursor-pointer">Edit
                                     </button>
-                                </form>
+                                </a>
                                 <form action="/dashboard/del/<%=blog._id%>" method="POST">
                                     <button class="bg-my_blue text-white px-2 py-2 rounded-md cursor-pointer">Delete</button>
                                 </form>
