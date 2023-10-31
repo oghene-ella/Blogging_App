@@ -2,6 +2,8 @@
 const express = require("express");
 const connectBlogMongo = require("./config/config");
 require("dotenv").config();
+const cookieParser = require("cookie-parser");
+const morgan = require("morgan");
 
 const UsersRouterHandler = require("./users/user.route");
 const BlogRouteHandler = require("./blogs/blog.routes");
@@ -12,6 +14,7 @@ const PORT = process.env.PORT;
 
 // create express app
 const app = express();
+app.use(morgan("common"));
 
 // use ejs as view engine
 app.set("view engine", "ejs");
@@ -20,7 +23,10 @@ app.set("views", "views");
 // parses incoming requests/data to JSON payloads
 app.use(express.json());
 
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieParser());
+
 
 // static folder path
 app.use("/src", express.static("src"));
@@ -64,46 +70,17 @@ app.get("/signup", (req, res) => {
 });
 
 
-// app.get("/edit/:req_id", async (req, res) => {
-// 	const req_body = req.body;
-// 	console.log("request id", req_body);
-
-// 	const user = res.locals.user;
-// 	console.log("user o", user);
-
-// 	const req_id = res.params.id;
-// 	console.log("request id: ", req_id);
-
-// 	const response = await blogService.updateBlog(req_id, req_body, user);
-
-// 	console.log("response single", response);
-
-// 	if (response.statusCode == 422) {
-// 		res.redirect("/404");
-// 	} else if (response.statusCode == 406) {
-// 		res.redirect("/404");
-// 	} else if (response.statusCode == 409 ) {
-// 		res.redirect("/404");
-// 	} else {
-// 		res.render("edit");
-// 	}
-// });
-
-
 app.get("/create", (req, res) => {
 	res.render("create");
 });
 
-// app.get("/dashboard/edit:req_id", (req, res) => {
-// 	res.render("edit");
-// });
 
-app.post("/dashboard", BlogRouteHandler);
+// app.post("/dashboard", BlogRouteHandler);
 
 // use users routes
 app.use("/users", UsersRouterHandler);
 app.use("/dashboard", BlogRouteHandler);
-// app.use("/dashboard/create", BlogRouteHandler);
+
 
 // logout
 app.get("/logout", (req, res) => {

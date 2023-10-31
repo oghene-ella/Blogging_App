@@ -43,7 +43,7 @@ const BlogSchema = new Schema({
 		default: 0,
 	},
 	tags: {
-		type: Array,
+		type: [String],
 	},
 	createdAt: {
 		type: Date,
