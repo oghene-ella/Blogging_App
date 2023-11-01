@@ -33,8 +33,9 @@ app.use("/src", express.static("src"));
 
 
 app.get("/", async (req, res) => {
-	// const req_id = req.params.req_id;
-	const response = await blogService.getPublishedBlogs();
+	const page = 1;
+	const limit = 10;
+	const response = await blogService.getPublishedBlogsLandingPage(page, limit);
 
 	if (response.statusCode == 409) {
 		res.redirect("/404");
@@ -48,13 +49,10 @@ app.get("/published/:req_id", async (req, res) => {
 	
 	const response = await blogService.getSinglePublishedBlogs(req_id);
 
-	console.log("request id", req_id);
-	console.log("response single", response)
-
 	if (response.statusCode == 409) {
 		res.redirect("/404");
 	} else if (response.statusCode == 200) {
-		res.render("sub", { blogs: response.blogList });
+		res.render("sub", { blogs: response.blogList});
 	}
 });
 
@@ -73,9 +71,6 @@ app.get("/signup", (req, res) => {
 app.get("/create", (req, res) => {
 	res.render("create");
 });
-
-
-// app.post("/dashboard", BlogRouteHandler);
 
 // use users routes
 app.use("/users", UsersRouterHandler);
