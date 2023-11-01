@@ -13,16 +13,12 @@ const createBlog = async (user, req_body) => {
 
 		console.log("actual tags: ", req_body.tags)
 
-		const tags = req_body.tags.split(',').map(tag => tag.trim());
-
-		console.log("split tags: ", tags)
-
 		const newBlog = await BlogModel.create({
 			title: req_body.title,
 			description: req_body.description,
 			author: req_body.author,
 			body: req_body.body,
-			tags: [...tags],
+			// tags: [...tags],
 			userId: user._id,
 		});
 
@@ -55,11 +51,8 @@ const deleteBlog = async (user, req_id) => {
 				success: false,
 			};
 		}
-		console.log("blog id:", req_id);
 
 		const deleteBlog = await BlogModel.findByIdAndDelete(req_id);
-
-		console.log("del blog", deleteBlog);
 
 		if (!deleteBlog) {
 			return {
@@ -70,8 +63,6 @@ const deleteBlog = async (user, req_id) => {
 		}
 
 		const BlogList = await BlogModel.find({ userId: user._id });
-
-		console.log("blog list: ", BlogList)
 
 		return {
 			statusCode: 200,
@@ -99,15 +90,12 @@ const PublishBlog = async (user, req_id) => {
 				success: false,
 			};
 		}
-		console.log("blog id:", req_id);
 
 		const publishBlog = await BlogModel.findByIdAndUpdate(req_id,
 			{
 				state: "published"
 			}
 		);
-
-		console.log("publish blog", publishBlog);
 
 		if (!publishBlog) {
 			return {
@@ -119,7 +107,6 @@ const PublishBlog = async (user, req_id) => {
 
 		const BlogList = await BlogModel.find({ userId: user._id });
 
-		console.log("blog list: ", BlogList);
 
 		return {
 			statusCode: 200,
@@ -128,7 +115,6 @@ const PublishBlog = async (user, req_id) => {
 			BlogList,
 		};
 	} catch (err) {
-		console.log("del error: ", err);
 		return {
 			statusCode: 409,
 			message: "Something went wrong with deleting the blog, try again later.",
@@ -218,7 +204,6 @@ const updateBlog = async (req_id, req_body, user) => {
 			},
 		);
 
-		console.log("updated blog: ", updateBlog);
 
 		if (!updateBlog) {
 			return {
@@ -244,9 +229,103 @@ const updateBlog = async (req_id, req_body, user) => {
 	}
 };
 
-const getPublishedBlogs = async () => {
+const getPublishedBlogs = async (user) => {
 	try {
-		const blogs = await BlogModel.find({ state: "published"});
+		const blogs = await BlogModel.find({ userId: user._id, state: "published" });
+
+		if (blogs.length === 0) {
+			return {
+				statusCode: 200,
+				message: "There are no blog's",
+				blogs: blogs,
+				blogCount: 0,
+				user,
+			};
+		}
+
+		if (blogs.length != 0) {
+			return {
+				statusCode: 200,
+				message: null,
+				blogs: blogs,
+				blogCount: blogs.length,
+				user,
+			};
+		}
+	} catch (error) {
+		return {
+			statusCode: 409,
+			message:
+				"Something went wrong with getting the published blog list, try again later.",
+			error,
+			success: false,
+		};
+	}
+};
+
+const getDraftBlogs = async (user) => {
+	try {
+		const blogs = await BlogModel.find({userId: user._id, state: "draft" });
+
+		if (blogs.length === 0) {
+			return {
+				statusCode: 200,
+				message: "There are no blog's",
+				blogs: blogs,
+				blogCount: 0,
+				user,
+			};
+		}
+
+		return {
+			statusCode: 200,
+			message: null,
+			blogs: blogs,
+			blogCount: blogs.length,
+			user,
+		};
+
+	} catch (error) {
+		return {
+			statusCode: 409,
+			message:
+				"Something went wrong with getting the drafted blog list, try again later.",
+			error,
+			success: false,
+		};
+	}
+};
+
+const getSinglePublishedBlogs = async (req_id) => {
+	try {
+		const blogList = await BlogModel.find({_id: req_id});
+
+		return {
+			statusCode: 200,
+			message: "Blog found successfully",
+			success: true,
+			blogList,
+		};
+	} catch (error) {
+		return {
+			statusCode: 409,
+			message:
+				"Something went wrong with getting the published blog list, try again later.",
+			error,
+			success: false,
+		};
+	}
+};
+
+const getPublishedBlogsLandingPage = async (page, limit) => {
+	try {
+		const skip = (page - 1) * limit;
+
+		const blogs = await BlogModel.find({
+			state: "published",
+		})
+			.skip(skip)
+        	.limit(limit);
 
 		if (blogs.length === 0) {
 			return {
@@ -265,62 +344,6 @@ const getPublishedBlogs = async () => {
 				blogCount: blogs.length,
 			};
 		}
-
-	} catch (error) {
-		return {
-			statusCode: 409,
-			message:
-				"Something went wrong with getting the published blog list, try again later.",
-			error,
-			success: false,
-
-		};
-	}
-};
-
-const getDraftBlogs = async () => {
-	try {
-		const blogs = await BlogModel.find({ state: "draft" });
-
-		if (blogs.length === 0) {
-			return {
-				statusCode: 200,
-				message: "There are no blog's",
-				blogs: blogs,
-				blogCount: 0,
-			};
-		}
-
-		return {
-			statusCode: 200,
-			message: null,
-			blogs: blogs,
-			blogCount: blogs.length,
-		};
-
-	} catch (error) {
-		return {
-			statusCode: 409,
-			message:
-				"Something went wrong with getting the drafted blog list, try again later.",
-			error,
-			success: false,
-		};
-	}
-};
-
-const getSinglePublishedBlogs = async (req_id) => {
-	try {
-		const blogList = await BlogModel.find({_id: req_id});
-
-		console.log("single blog", blogList);
-
-		return {
-			statusCode: 200,
-			message: "Blog found successfully",
-			success: true,
-			blogList,
-		};
 	} catch (error) {
 		return {
 			statusCode: 409,
@@ -342,4 +365,5 @@ module.exports = {
 	getPublishedBlogs,
 	getSinglePublishedBlogs,
 	PublishBlog,
+	getPublishedBlogsLandingPage,
 };

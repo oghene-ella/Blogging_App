@@ -15,8 +15,6 @@ Router.get("/", async (req, res) => {
 	const user = res.locals.user;
 	const response = await blogService.getBlogs(user);
 
-	console.log(response);
-
 	if (response.statusCode == 409) {
 		res.redirect("/404"); 
 	} else if (response.statusCode == 200) {
@@ -28,9 +26,8 @@ Router.get("/", async (req, res) => {
 });
 
 Router.get("/published", async (req, res) => {
-	const response = await blogService.getPublishedBlogs();
-
-	console.log("response single", response);
+	const user = res.locals.user;
+	const response = await blogService.getPublishedBlogs(user);
 
 	if (response.statusCode == 409) {
 		res.redirect("/404");
@@ -43,9 +40,8 @@ Router.get("/published", async (req, res) => {
 });
 
 Router.get("/draft", async (req, res) => {
-	const response = await blogService.getDraftBlogs();
-
-	console.log("response single", response);
+	const user = res.locals.user;
+	const response = await blogService.getDraftBlogs(user);
 
 	if (response.statusCode == 409) {
 		res.redirect("/404");
@@ -60,8 +56,6 @@ Router.post("/create", async (req, res) => {
 
 	const response = await blogService.createBlog(user, req_body);
 
-	console.log("response from post add:", response);
-
 	if (response.statusCode == 422) {
 		res.redirect("/404");
 	} else if (response.statusCode == 409) {
@@ -71,53 +65,12 @@ Router.post("/create", async (req, res) => {
 	}
 });
 
-// Router.post("/add", async (req, res) => {
-// 	const req_body = req.body;
-// 	const user = res.locals.user;
-
-// 	const response = await blogService.createBlog(user, req_body);
-
-// 	console.log("response from post add:", response);
-
-// 	if (response.statusCode == 422) {
-// 		res.redirect("/404");
-// 	} else if (response.statusCode == 409) {
-// 		res.redirect("/404");
-// 	} else if (response.statusCode == 201) {
-// 		res.render("dashboard", { blogs: response.newBlog, user: response.user });
-// 	}
-// });
-
-// Router.get("/edit", async (req, res) => {
-// 	const req_body = req.body;
-// 	const user = res.locals.user;
-
-// 	console.log("req body update", req_body);
-
-// 	console.log("user for update", user);
-
-// 	const response = await blogService.updateBlog(user, req_body);
-
-// 	console.log("response from post add:", response);
-
-// 	if (response.statusCode == 422) {
-// 		res.redirect("/404");
-// 	} else if (response.statusCode == 406) {
-// 		res.redirect("/404");
-// 	} else if (response.statusCode == 409) {
-// 		res.redirect("/404");
-// 	} else {
-// 		// res.redirect("/dashboard");
-// 		res.render("dashboard", { blogs: response.blog, user: response.user });
-// 	}
-// });
 
 Router.get("/edit/:blog_id", async (req, res) => {
 	const blog_id = req.params.blog_id;
 	const user = res.locals.user;
 
 	const response = await blogService.getBlog(user, blog_id);
-	console.log("edit response: ", response);
 
 	if (response.statusCode == 409) {
 		res.redirect("/404");
@@ -128,17 +81,12 @@ Router.get("/edit/:blog_id", async (req, res) => {
 
 Router.post("/edit/:req_id", async (req, res) => {
 	const req_body = req.body;
-	console.log("request body", req_body);
 
 	const user = res.locals.user;
-	console.log("user o", user);
 
 	const req_id = req.params.req_id;
-	console.log("request id: ", req_id);
 
 	const response = await blogService.updateBlog(req_id, req_body, user);
-
-	console.log("response single", response);
 
 	if (response.statusCode == 422) {
 		res.redirect("/404");
@@ -157,7 +105,6 @@ Router.post("/del/:req_id", async (req, res) => {
 	const user = res.locals.user;
 	const response = await blogService.deleteBlog(user, req_id);
 
-	console.log("the response: ", response);
 
 	if (response.statusCode == 422) {
 		res.redirect("/404");
@@ -174,7 +121,6 @@ Router.post("/publish/:req_id", async (req, res) => {
 	const user = res.locals.user;
 	const response = await blogService.PublishBlog(user, req_id);
 
-	console.log("the response: ", response);
 
 	if (response.statusCode == 422) {
 		res.redirect("/404");

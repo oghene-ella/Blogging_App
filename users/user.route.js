@@ -33,13 +33,13 @@ Router.post("/login", async (req, res) => {
     })
 
     if(response.statusCode == 404){
-        res.redirect("/404")
+        res.redirect("/")
     }
     else if (response.statusCode == 422) {
-		res.redirect("/404");
+		res.redirect("/login");
 	} 
     else if (response.statusCode == 401) {
-		res.redirect("/404");
+		res.redirect("/login");
 	} 
     else {
         res.cookie("jwt", response.token)
