@@ -35,7 +35,7 @@ const createBlog = async (user, req_body) => {
 			author: req_body.author,
 			body: req_body.body,
 			readTime: readingTime(req_body.body),
-			readCount: req_body.readCount++,
+			// readCount: 0,
 			// tags: [...tags],
 			userId: user._id,
 		});

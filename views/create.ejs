@@ -66,55 +66,13 @@
                 <span class="flex flex-col gap-4">
                     <label>Tags</label>
                     <input type="text" placeholder="Enter a tag!"
-                        class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" id="tag-input" />
-                    <div id="tag-container" class="flex flex-wrap" name="tags"></div>
+                        class="bg-transparent border border-my_blue px-5 py-3 rounded-lg" id="tag-input"
+                        name="tags" />
                 </span>
 
                 <button type="submit" class="bg-my_blue text-white py-4 rounded-lg">Submit</button>
             </form>
         </main>
     </section>
-
-    <script>
-        const tagContainer = document.getElementById('tag-container');
-        const tagInput = document.getElementById('tag-input');
-
-        // Function to create a new tag element
-        function createTag(tagText) {
-            const tag = document.createElement('div');
-            tag.classList.add('bg-my_blue', 'text-white', 'p-2', 'rounded', 'm-1', 'cursor-pointer');
-            tag.textContent = tagText;
-
-            // Remove the tag when it's clicked
-            tag.addEventListener('click', function () {
-                tagContainer.removeChild(tag);
-            });
-
-            return tag;
-        }
-
-        // Function to add a new tag to the container
-        function addTag(tagText) {
-            if (tagText.trim() !== '') {
-                const tag = createTag(tagText);
-                tagContainer.appendChild(tag);
-                tagInput.value = ''; // Clear the input field
-            }
-        }
-
-        // Handle input events
-        tagInput.addEventListener('keydown', function (event) {
-            if (event.key === 'Enter' || event.key === ',') {
-                event.preventDefault(); // Prevent default behavior of Enter key or comma
-                addTag(tagInput.value.trim());
-            }
-        });
-
-        // Optionally, you can also add a click event listener to the container to focus the input field
-        tagContainer.addEventListener('click', function () {
-            tagInput.focus();
-        });
-    </script>
-
 </body>
 </html>
