@@ -42,13 +42,13 @@
                     <% blogs.forEach(function(blog, i) { %>
                         <a class="border border-black p-4 rounded-lg flex flex-col gap-5 cursor-pointer" href="/published/<%= blog._id %>">
                             <h1 class="font-playpen text-4xl no-underline capitalize"><%= blog.title%></h1>
-                            <p class="font-sora text-base text-gray-700">
+                            <p class="font-sora text-base text-gray-700 capitalize">
                                 <%= blog.description%>
                             </p>
-                            <p class="font-playpen">
+                            <p class="font-playpen capitalize">
                                 By <%= blog.author%>
                             </p>
-                            <span class="flex gap-5">
+                            <span class="flex gap-5 ">
                                 <% for (let i = 0; i < blog.tags.length; i++) { %>
                                 <p class="bg-my_blue text-white px-5 py-1 w-fit rounded-full capitalize">
                                     <%= blog.tags[i] %>
@@ -56,9 +56,9 @@
                                 <% } %>
                             </span>
                             <span class="flex justify-between">
-                                <p>
+                                <p class="capitalize">
                                     <%= blog.readTime%>
-                                        min read
+                                        read
                                 </p>
                                 <p class="text-gray-700 capitalize"><%= blog.state%></p>
                             </span>

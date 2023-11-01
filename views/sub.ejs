@@ -22,20 +22,20 @@
                 <section class="flex flex-col gap-10">
                     <h1 class="text-5xl font-playpen capitalize"><%= blog.title%></h1>
                     <span class="flex justify-between">
-                        <p>By <%= blog.author%></p>
-                        <p><%= blog.createdAt%>Time Stamp | <%= blog.readTime%> min read</p>
+                        <p class="capitalize">By <%= blog.author%></p>
+                        <p>Time Stamp | <%= blog.readTime%> read</p>
                     </span>
                     <p><%= blog.body%></p>
                     <span class="flex gap-5">
                         <% for (let i=0; i < blog.tags.length; i++) { %>
-                            <p class="bg-my_blue py-2 px-5 rounded-full text-white w-fit">
+                            <p class="bg-my_blue py-2 px-5 rounded-full text-white w-fit capitalize">
                                 <%= blog.tags[i] %>
                             </p>
                             <% } %>
                     </span>
                     <span class="flex justify-between">
-                        <p><%= blog.readCount%> Views</p>
-                        <p><%= blog.state%></p>
+                        <p class="capitalize">Views</p>
+                        <p class="capitalize"><%= blog.state%></p>
                     </span>
                 </section>
             <% }); %>

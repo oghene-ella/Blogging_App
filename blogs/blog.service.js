@@ -2,6 +2,22 @@ const BlogModel = require("../models/blogModel");
 
 const createBlog = async (user, req_body) => {
 	try {
+
+		function readingTime(text) {
+			const words = text.split(/\s+/);
+			const wordCount = words.length;
+			let averageWPM = 200;
+			let calcSec;
+			let calcMin = wordCount / averageWPM;
+
+			if (calcMin < 1) {
+				calcSec = Math.floor(calcMin * 60);
+				return `${calcSec} sec`;
+			} else {
+				return `${calcMin} min`;
+			}
+		}
+
 		if (!req_body) {
 			return {
 				statusCode: 422,
@@ -18,6 +34,8 @@ const createBlog = async (user, req_body) => {
 			description: req_body.description,
 			author: req_body.author,
 			body: req_body.body,
+			readTime: readingTime(req_body.body),
+			readCount: req_body.readCount++,
 			// tags: [...tags],
 			userId: user._id,
 		});
@@ -184,6 +202,22 @@ const getBlog = async (user, blog_id) => {
 };
 
 const updateBlog = async (req_id, req_body, user) => {
+
+	function readingTime(text) {
+		const words = text.split(/\s+/);
+		const wordCount = words.length;
+		let averageWPM = 200;
+		let calcSec;
+		let calcMin = wordCount / averageWPM;
+
+		if (calcMin < 1) {
+			calcSec = Math.floor(calcMin * 60);
+			return `${calcSec} sec`;
+		} else {
+			return `${calcMin} min`;
+		}
+	}
+
 	try {
 		if (!req_body) {
 			return {
@@ -200,6 +234,7 @@ const updateBlog = async (req_id, req_body, user) => {
 				description: req_body.description,
 				body: req_body.body,
 				author: req_body.author,
+				readTime: readingTime(req_body.body),
 				tags: req_body.tags,
 			},
 		);
