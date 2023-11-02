@@ -45,6 +45,48 @@ app.get("/", async (req, res) => {
 	}
 });
 
+app.get("/search", async (req, res) => {
+	try {
+		const req_query = req.query.search;
+		const user = res.locals.user;
+
+		console.log("req query", req_query);
+
+		if (req_query) {
+			const searchResponse = await blogService.searchBlog(req_query);
+
+			if (searchResponse.statusCode == 200) {
+				res.render("index", {
+					blogs: searchResponse.searchBlogs,
+					query: req_query,
+				});
+			} else {
+				res.render("index", {
+					blogs: [],
+					query: req_query,
+					message: "No matching blogs found.",
+				});
+			}
+		} else {
+			// If no search query, get all blogs
+			const response = await blogService.getBlogs(user);
+			console.log(response, "my response");
+
+			if (response.statusCode == 409) {
+				res.redirect("/index");
+			} else if (response.statusCode == 200) {
+				res.render("index", {
+					blogs: response.blog,
+				});
+			}
+		}
+	}
+
+	catch (err) {
+		return res.redirect("/404")
+	}
+});
+
 app.get("/published/:req_id", async (req, res) => {
 	const req_id = req.params.req_id;
 	

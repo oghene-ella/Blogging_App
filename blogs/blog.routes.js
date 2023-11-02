@@ -131,41 +131,5 @@ Router.post("/publish/:req_id", async (req, res) => {
 	}
 });
 
-Router.get("/search", async (req, res) => {
-	const req_query = req.query.search;
-
-	console.log("req query", req_query);
-
-	if (req_query) {
-		const searchResponse = await blogService.searchBlog(req_query);
-
-		if (searchResponse.statusCode == 200) {
-			res.render("index", {
-				blogs: searchResponse.searchBlogs,
-				query: req_query,
-			});
-		} else {
-			res.render("index", {
-				blogs: [],
-				query: req_query,
-				message: "No matching blogs found.",
-			});
-		}
-	} else {
-
-		// If no search query, get all blogs
-		const response = await blogService.getBlogs(user);
-		console.log(response, "my response")
-
-		if (response.statusCode == 409) {
-			res.redirect("/404");
-		} else if (response.statusCode == 200) {
-			res.render("index", {
-				blogs: response.blog,
-			});
-		}
-	}
-});
-
 
 module.exports = Router;

@@ -13,13 +13,13 @@
 
 </head>
 
-<body class="bg-bg_signup flex flex-col gap-10">
+<body class="bg-bg_signup flex flex-col">
     <section class="h-fit flex flex-col w-full items-center justify-center p-5">
-        <main class=" w-11/12 flex flex-col font-sora gap-14 h-fit">
-            <header class="flex items-center justify-between">
+        <main class=" w-11/12 flex flex-col font-sora gap-10 sm:gap-16 h-fit">
+            <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-8">
                 <h1 class="font-playpen text-3xl md:text-5xl">Welcome <%= user.firstname %>
                 </h1>
-                <span class="flex gap-5">
+                <span class="flex gap-5 justify-end">
                     <a href="/create" class="bg-my_blue px-5 py-2 text-white rounded-lg">Write</a>
                     <a href="/logout" class="border border-my_blue px-5 py-2 text-my_blue rounded-lg">Logout</a>
                 </span>
@@ -27,7 +27,7 @@
             
             <h3 class="underline decoration-my_blue text-black text-xl">Blogs</h3>
 
-            <span class="flex gap-14">
+            <span class="flex gap-8 md:gap-14">
                 <a href="/dashboard" class="underline decoration-my_blue ">All Blogs </a>
                 <a href="/dashboard/draft" >
                     Draft
@@ -37,12 +37,12 @@
                 </a>
             </span>
 
-            <section class="flex flex-col gap-7">
+            <section class="flex flex-col gap-7 mb-5">
                 <% blogs.forEach(function(blog) { %>
                     <section class="border border-gray-100 flex flex-col gap-4 p-5 rounded-xl shadow-md bg-white">
-                        <span class="flex justify-between">
+                        <span class="flex flex-col sm:flex-row gap-5 justify-between">
                             <h2 class="text-3xl capitalize"><%= blog.title%></h2>
-                            <span class="flex items-center gap-4">
+                            <span class="flex items-center gap-4 justify-end">
                                 <a href="/dashboard/edit/<%=blog._id%>">
                                     <button type="submit" class="underline decoration-my_blue cursor-pointer">Edit
                                     </button>
@@ -56,8 +56,8 @@
                         <p class="text-base capitalize">
                             <%= blog.body%>
                         </p>
-                        <span class="flex justify-between">
-                            <p class="text-base capitalize bg-gray-600 px-3 py-2 rounded-lg text-white">
+                        <span class="flex flex-col md:flex-row gap-5 justify-between ">
+                            <p class="text-base capitalize bg-gray-600 px-3 py-2 rounded-lg text-white w-fit">
                                 <%= blog.tags%>
                             </p>
                             <p class="text-base capitalize">
@@ -66,7 +66,7 @@
                                 Read
                             </p>
                         </span>
-                        <span class="flex justify-between">
+                        <span class="flex justify-between gap-5">
                             <p class="text-base text-my_blue font-semibold capitalize">By <%= blog.author%></p>
                             <span class="flex gap-5 items-center flex-row-reverse">
                                 <form action="/dashboard/publish/<%=blog._id%>" method="POST">
@@ -90,20 +90,6 @@
             <p>&copy; 2023 BlogIfy. All rights reserved.</p>
         </div>
     </footer>
-
-
-    <script>
-        const navLinks = document.querySelectorAll('.nav-link');
-
-        navLinks.forEach((link) => {
-            link.addEventListener('click', (event) => {
-                navLinks.forEach((item) => {
-                    item.classList.remove('active');
-                });
-                event.target.classList.add('active');
-            });
-        });
-    </script>
 
 </body>
 

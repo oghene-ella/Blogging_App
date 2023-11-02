@@ -568,6 +568,14 @@ video {
   }
 }
 
+.bottom-0 {
+  bottom: 0px;
+}
+
+.bottom-10 {
+  bottom: 2.5rem;
+}
+
 .m-1 {
   margin: 0.25rem;
 }
@@ -579,6 +587,10 @@ video {
 
 .mt-4 {
   margin-top: 1rem;
+}
+
+.mb-5 {
+  margin-bottom: 1.25rem;
 }
 
 .flex {
@@ -660,6 +672,10 @@ video {
   align-items: center;
 }
 
+.justify-end {
+  justify-content: flex-end;
+}
+
 .justify-center {
   justify-content: center;
 }
@@ -714,6 +730,10 @@ video {
 
 .gap-6 {
   gap: 1.5rem;
+}
+
+.gap-1 {
+  gap: 0.25rem;
 }
 
 .space-y-2 > :not([hidden]) ~ :not([hidden]) {
@@ -1077,12 +1097,24 @@ video {
 }
 
 @media (min-width: 640px) {
+  .sm\:flex-row {
+    flex-direction: row;
+  }
+
+  .sm\:items-center {
+    align-items: center;
+  }
+
   .sm\:gap-10 {
     gap: 2.5rem;
   }
 
   .sm\:gap-20 {
     gap: 5rem;
+  }
+
+  .sm\:gap-16 {
+    gap: 4rem;
   }
 
   .sm\:px-8 {
@@ -1117,6 +1149,14 @@ video {
 
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .md\:flex-row {
+    flex-direction: row;
+  }
+
+  .md\:gap-14 {
+    gap: 3.5rem;
   }
 
   .md\:p-20 {
