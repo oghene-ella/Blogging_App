@@ -8,6 +8,7 @@ const morgan = require("morgan");
 const UsersRouterHandler = require("./users/user.route");
 const BlogRouteHandler = require("./blogs/blog.routes");
 const blogService = require("./blogs/blog.service");
+const blogModel = require("./models/blogModel");
 
 // port
 const PORT = process.env.PORT;
@@ -34,7 +35,7 @@ app.use("/src", express.static("src"));
 
 app.get("/", async (req, res) => {
 	const page = 1;
-	const limit = 10;
+	const limit = 20;
 	const response = await blogService.getPublishedBlogsLandingPage(page, limit);
 
 	if (response.statusCode == 409) {
@@ -48,6 +49,12 @@ app.get("/published/:req_id", async (req, res) => {
 	const req_id = req.params.req_id;
 	
 	const response = await blogService.getSinglePublishedBlogs(req_id);
+
+	const getBlogCount = await blogModel.findOne({ _id: req_id });
+	getBlogCount.readCount = getBlogCount.readCount + 1;
+
+	// Save back to the database
+	await getBlogCount.save();
 
 	if (response.statusCode == 409) {
 		res.redirect("/404");

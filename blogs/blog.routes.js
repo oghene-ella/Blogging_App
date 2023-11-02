@@ -155,14 +155,13 @@ Router.get("/search", async (req, res) => {
 
 		// If no search query, get all blogs
 		const response = await blogService.getBlogs(user);
+		console.log(response, "my response")
 
 		if (response.statusCode == 409) {
 			res.redirect("/404");
 		} else if (response.statusCode == 200) {
 			res.render("index", {
 				blogs: response.blog,
-				user: response.user,
-				blogCount: response.blogCount,
 			});
 		}
 	}

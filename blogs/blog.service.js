@@ -38,6 +38,7 @@ const createBlog = async (user, req_body) => {
 			// readCount: 0,
 			tags: req_body.tags,
 			userId: user._id,
+			createdAt: req_body.createdAt,
 		});
 
 		console.log("new blog: ", newBlog)
@@ -236,6 +237,7 @@ const updateBlog = async (req_id, req_body, user) => {
 				author: req_body.author,
 				readTime: readingTime(req_body.body),
 				tags: req_body.tags,
+				updatedAt: req_body.updatedAt,
 			},
 		);
 

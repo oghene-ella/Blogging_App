@@ -23,7 +23,7 @@
                     <h1 class="text-5xl font-playpen capitalize"><%= blog.title%></h1>
                     <span class="flex justify-between">
                         <p class="capitalize">By <%= blog.author%></p>
-                        <p>Time Stamp | <%= blog.readTime%> read</p>
+                        <p><%= blog.updatedAt.toDateString()%> | <%= blog.readTime%> read</p>
                     </span>
                     <p><%= blog.body%></p>
                     <span class="flex gap-5">
@@ -34,7 +34,7 @@
                             <% } %>
                     </span>
                     <span class="flex justify-between">
-                        <p class="capitalize">Views</p>
+                        <p class="capitalize"><%= blog.readCount%> Views </p>
                         <p class="capitalize"><%= blog.state%></p>
                     </span>
                 </section>
