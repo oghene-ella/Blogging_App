@@ -36,7 +36,7 @@ const createBlog = async (user, req_body) => {
 			body: req_body.body,
 			readTime: readingTime(req_body.body),
 			// readCount: 0,
-			// tags: [...tags],
+			tags: req_body.tags,
 			userId: user._id,
 		});
 
@@ -390,6 +390,44 @@ const getPublishedBlogsLandingPage = async (page, limit) => {
 	}
 };
 
+const searchBlog = async (req_query) => {
+	try {
+		const searchBlogs = await BlogModel.find({
+			$or: [
+				{ title: { $regex: req_query, $options: "i" } },
+				{ author: { $regex: req_query, $options: "i" } }, 
+				{ tags: { $in: [req_query] } },
+			],
+		});
+
+		console.log("the search blogs: ", searchBlogs);
+
+		if (searchBlogs.length === 0) {
+			return {
+				message: "No matching blogs found",
+				statusCode: 404,
+				success: true,
+				searchBlogs: [],
+			};
+		}
+
+		return {
+			message: "Blogs found",
+			statusCode: 200,
+			success: true,
+			searchBlogs,
+		};
+	} catch (err) {
+		console.error("Error:", err);
+		return {
+			message: "Something went wrong while searching blogs",
+			err,
+			statusCode: 500,
+			success: false,
+		};
+	}
+}
+
 module.exports = {
 	createBlog,
 	deleteBlog,
@@ -401,4 +439,5 @@ module.exports = {
 	getSinglePublishedBlogs,
 	PublishBlog,
 	getPublishedBlogsLandingPage,
+	searchBlog,
 };
