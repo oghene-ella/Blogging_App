@@ -1,6 +1,5 @@
 // call all the modules including the config module
 const express = require("express");
-const connectBlogMongo = require("./config/config");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
 
@@ -10,8 +9,6 @@ const blogService = require("./blogs/blog.service");
 const blogModel = require("./models/blogModel");
 const logger = require("./log/logger");
 
-// port
-const PORT = process.env.PORT;
 
 // create express app
 const app = express();
@@ -153,11 +150,4 @@ app.use((err, req, res, next) => {
 	logger.error("error handler");
 });
 
-// establish connection to mongodb
-connectBlogMongo.connectBlogMongo();
-
-// listener
-app.listen(PORT, () => {
-	console.log(`server listening at http://localhost:${PORT}`);
-	logger.info("Successfully running the server! :)");
-});
+module.exports = app;
