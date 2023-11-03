@@ -31,6 +31,7 @@ app.use("/src", express.static("src"));
 
 app.get("/", async (req, res) => {
 	const page = 1;
+	
 	const limit = 20;
 	const response = await blogService.getPublishedBlogsLandingPage(page, limit);
 
@@ -38,7 +39,8 @@ app.get("/", async (req, res) => {
 		res.redirect("/404");
 		logger.error("unable to fetch published blogs on the landing page");
 	} else if (response.statusCode == 200) {
-		res.render("index", { blogs: response.blogs });
+		const totalPages = Math.ceil(response.blogCount / limit);
+		res.render("index", { blogs: response.blogs, totalPages, currentPage: page });
 		logger.info("Successfully fetched published blogs on the landing page");
 	}
 });

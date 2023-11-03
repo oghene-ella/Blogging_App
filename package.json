@@ -9,7 +9,7 @@
 		"test": "jest --detectOpenHandles"
 	},
 	"keywords": [],
-	"author": "",
+	"author": "Ellahhh",
 	"license": "ISC",
 	"dependencies": {
 		"bcrypt": "^5.1.1",

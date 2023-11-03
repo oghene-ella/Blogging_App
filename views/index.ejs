@@ -82,6 +82,18 @@
             </section>
         </main>
 
+        <!-- <div class="pagination border border-red-600">
+            <% if (currentPage > 1) { %>
+                <a href="?page==<%= currentPage %>" class="page-link">First</a>
+                <a href="?page=<%= currentPage - 1 %>" class="page-link">Previous</a>
+                <% } %>
+        
+            <% if (currentPage < totalPages) { %>
+                <a href="?page=<%= currentPage + 1 %>" class="page-link">Next</a>
+                <a href="?page=<%= totalPages %>" class="page-link">Last</a>
+                <% } %>
+        </div> -->
+
         <footer class="bg-gray-900 text-white py-4">
             <div class="container mx-auto text-center">
                 <p>&copy; 2023 BlogIfy. All rights reserved.</p>

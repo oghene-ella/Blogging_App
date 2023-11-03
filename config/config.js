@@ -11,8 +11,7 @@ const connectBlogMongo = async () => {
 	});
 
 	mongoose.connection.on("error", (err) => {
-		console.log("An error occurred while connecting to MongoDB");
-		console.log(err);
+		console.log("An error occurred while connecting to MongoDB: ", err);
 		logger.error("Unable to connect to MongoDB");
 	});
 };
