@@ -32,7 +32,7 @@ const createBlog = async (user, req_body) => {
 		const newBlog = await BlogModel.create({
 			title: req_body.title,
 			description: req_body.description,
-			author: req_body.author,
+			author: user.firstname,
 			body: req_body.body,
 			readTime: readingTime(req_body.body),
 			// readCount: 0,
@@ -234,7 +234,7 @@ const updateBlog = async (req_id, req_body, user) => {
 				title: req_body.title,
 				description: req_body.description,
 				body: req_body.body,
-				author: req_body.author,
+				author: user.firstname,
 				readTime: readingTime(req_body.body),
 				tags: req_body.tags,
 				updatedAt: req_body.updatedAt,
