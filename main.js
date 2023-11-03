@@ -3,19 +3,18 @@ const express = require("express");
 const connectBlogMongo = require("./config/config");
 require("dotenv").config();
 const cookieParser = require("cookie-parser");
-const morgan = require("morgan");
 
 const UsersRouterHandler = require("./users/user.route");
 const BlogRouteHandler = require("./blogs/blog.routes");
 const blogService = require("./blogs/blog.service");
 const blogModel = require("./models/blogModel");
+const logger = require("./log/logger");
 
 // port
 const PORT = process.env.PORT;
 
 // create express app
 const app = express();
-app.use(morgan("common"));
 
 // use ejs as view engine
 app.set("view engine", "ejs");
@@ -40,8 +39,10 @@ app.get("/", async (req, res) => {
 
 	if (response.statusCode == 409) {
 		res.redirect("/404");
+		logger.error("unable to fetch published blogs on the landing page");
 	} else if (response.statusCode == 200) {
 		res.render("index", { blogs: response.blogs });
+		logger.info("Successfully fetched published blogs on the landing page");
 	}
 });
 
@@ -60,12 +61,14 @@ app.get("/search", async (req, res) => {
 					blogs: searchResponse.searchBlogs,
 					query: req_query,
 				});
+				logger.info("successfully fetched the search query");
 			} else {
 				res.render("index", {
 					blogs: [],
 					query: req_query,
 					message: "No matching blogs found.",
 				});
+				logger.error("unable to search for a blog");
 			}
 		} else {
 			// If no search query, get all blogs
@@ -74,10 +77,12 @@ app.get("/search", async (req, res) => {
 
 			if (response.statusCode == 409) {
 				res.redirect("/index");
+				logger.info("you did not input a search query");
 			} else if (response.statusCode == 200) {
 				res.render("index", {
 					blogs: response.blog,
 				});
+				logger.info("return all blogs");
 			}
 		}
 	}
@@ -100,8 +105,10 @@ app.get("/published/:req_id", async (req, res) => {
 
 	if (response.statusCode == 409) {
 		res.redirect("/404");
+		logger.error("unable to get a particular published blog");
 	} else if (response.statusCode == 200) {
 		res.render("sub", { blogs: response.blogList});
+		logger.info("successfully fetched a blogs info");
 	}
 });
 
@@ -109,16 +116,19 @@ app.get("/published/:req_id", async (req, res) => {
 // get method for the login page
 app.get("/login", (req, res) => {
 	res.render("login");
+	logger.info("login");
 });
 
 // get method for the sign_up page
 app.get("/signup", (req, res) => {
 	res.render("signup");
+	logger.info("sign up");
 });
 
 
 app.get("/create", (req, res) => {
 	res.render("create");
+	logger.error("create blog");
 });
 
 // use users routes
@@ -130,6 +140,7 @@ app.use("/dashboard", BlogRouteHandler);
 app.get("/logout", (req, res) => {
 	res.clearCookie("jwt");
 	res.redirect("/");
+	logger.info("logged out");
 });
 
 // error handling
@@ -139,6 +150,7 @@ app.use((err, req, res, next) => {
 		data: null,
 		error: "Server Error",
 	});
+	logger.error("error handler");
 });
 
 // establish connection to mongodb
@@ -147,4 +159,5 @@ connectBlogMongo.connectBlogMongo();
 // listener
 app.listen(PORT, () => {
 	console.log(`server listening at http://localhost:${PORT}`);
+	logger.info("Successfully running the server! :)");
 });
