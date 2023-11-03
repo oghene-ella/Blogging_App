@@ -61,3 +61,87 @@
 {"level":"info","message":"Successfully fetched published blogs on the landing page"}
 {"level":"info","message":"Successfully fetched published blogs on the landing page"}
 {"level":"info","message":"successfully Connected to MongoDB Successfully"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"error","message":"Unable to connect to MongoDB"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"error","message":"Unable to connect to MongoDB"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"error","message":"Unable to connect to MongoDB"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"error","message":"unable to fetch published blogs on the landing page"}
+{"level":"error","message":"Unable to connect to MongoDB"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"info","message":"successfully Connected to MongoDB Successfully"}
+{"level":"info","message":"Successfully fetched published blogs on the landing page"}
+{"level":"error","message":"error handler"}
+{"level":"info","message":"you did not input a search query"}
+{"level":"info","message":"successfully fetched the search query"}
+{"level":"error","message":"error handler"}
+{"level":"info","message":"you did not input a search query"}
+{"level":"info","message":"successfully fetched the search query"}
+{"level":"info","message":"successfully fetched the search query"}
+{"level":"info","message":"Successfully fetched published blogs on the landing page"}
+{"level":"info","message":"Successfully fetched published blogs on the landing page"}
+{"level":"info","message":"successfully fetched the search query"}
+{"level":"info","message":"successfully fetched the search query"}
+{"level":"info","message":"Successfully fetched published blogs on the landing page"}
+{"level":"info","message":"Successfully fetched published blogs on the landing page"}
+{"level":"info","message":"login"}
+{"level":"info","message":"Successfully logged in"}
+{"level":"error","message":"successfully logged in"}
+{"level":"info","message":"gotten the blogs"}
+{"level":"info","message":"successfully Connected to MongoDB Successfully"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"info","message":"successfully Connected to MongoDB Successfully"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"info","message":"logged out"}
+{"level":"info","message":"successfully Connected to MongoDB Successfully"}
+{"level":"info","message":"Successfully fetched published blogs on the landing page"}
+{"level":"info","message":"login"}
+{"level":"info","message":"Successfully fetched published blogs on the landing page"}
+{"level":"info","message":"Successfully logged in"}
+{"level":"error","message":"successfully logged in"}
+{"level":"info","message":"gotten the blogs"}
+{"level":"error","message":"create blog"}
+{"level":"error","message":"successfully logged in"}
+{"level":"error","message":"successfully created the blogs"}
+{"level":"error","message":"successfully logged in"}
+{"level":"info","message":"gotten the blogs"}
+{"level":"error","message":"successfully logged in"}
+{"level":"info","message":"successfully deleted the blog"}
+{"level":"error","message":"successfully logged in"}
+{"level":"info","message":"gotten the blogs"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"error","message":"successfully logged in"}
+{"level":"error","message":"Unable to get blogs"}
+{"level":"error","message":"Unable to connect to MongoDB"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"error","message":"successfully logged in"}
+{"level":"info","message":"successfully Connected to MongoDB Successfully"}
+{"level":"info","message":"gotten the blogs"}
+{"level":"error","message":"create blog"}
+{"level":"error","message":"successfully logged in"}
+{"level":"error","message":"successfully created the blogs"}
+{"level":"error","message":"successfully logged in"}
+{"level":"info","message":"gotten the blogs"}
+{"level":"error","message":"successfully logged in"}
+{"level":"info","message":"successfully deleted the blog"}
+{"level":"error","message":"successfully logged in"}
+{"level":"info","message":"gotten the blogs"}
+{"level":"info","message":"logged out"}
+{"level":"info","message":"Successfully fetched published blogs on the landing page"}
+{"level":"info","message":"login"}
+{"level":"error","message":"unable to login, incorrect email or password"}
+{"level":"info","message":"login"}
+{"level":"info","message":"Successfully fetched published blogs on the landing page"}
+{"level":"info","message":"Successfully fetched published blogs on the landing page"}
+{"level":"info","message":"successfully fetched a blogs info"}
+{"level":"info","message":"Successfully fetched published blogs on the landing page"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"info","message":"successfully Connected to MongoDB Successfully"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"info","message":"successfully Connected to MongoDB Successfully"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"error","message":"Unable to connect to MongoDB"}
