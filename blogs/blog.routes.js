@@ -4,6 +4,9 @@ const cookieParser = require("cookie-parser");
 
 const CookieAuth = require("../cookieAuth/Auth");
 const blogService = require("./blog.service");
+const logger = require("../log/logger");
+
+Router.use(express.json());
 
 Router.use(cookieParser());
 
@@ -13,72 +16,102 @@ Router.get("/", async (req, res) => {
 	const user = res.locals.user;
 	const response = await blogService.getBlogs(user);
 
-	console.log(response);
-
 	if (response.statusCode == 409) {
 		res.redirect("/404"); 
+		logger.error("Unable to get blogs")
 	} else if (response.statusCode == 200) {
-		res.render("dashboard", {blogs: response.blog , user: response.user});
+		res.render(
+			"dashboard",
+			{ blogs: response.blog, user: response.user, blogCount: response.blogCount }
+		);
+		logger.info("gotten the blogs")
+	}
+});
+
+Router.get("/published", async (req, res) => {
+	const user = res.locals.user;
+	const response = await blogService.getPublishedBlogs(user);
+
+	if (response.statusCode == 409) {
+		res.redirect("/404");
+		logger.error("unable to get published blogs")
+	} else if (response.statusCode == 200) {
+		res.render(
+			"dashboard",
+			{ blogs: response.blogs, blogCount: response.blogCount}
+		);
+		logger.info("successfully fetched published blogs ")
+	}
+});
+
+Router.get("/draft", async (req, res) => {
+	const user = res.locals.user;
+	const response = await blogService.getDraftBlogs(user);
+
+	if (response.statusCode == 409) {
+		res.redirect("/404");
+		logger.error("unable to get drafted blog")
+	} else if (response.statusCode == 200) {
+		res.render("dashboard", { blogs: response.blogs, blogCount: response.blogCount});
+		logger.info("successfully fetched drafted blog ")
 	}
 });
 
 Router.post("/create", async (req, res) => {
-	const req_body = req.body;
 	const user = res.locals.user;
-	console.log("user and req body", user, req_body)
+	const req_body = req.body;
 
 	const response = await blogService.createBlog(user, req_body);
 
-	console.log("response from post add:", response)
-
 	if (response.statusCode == 422) {
 		res.redirect("/404");
+		logger.error("unable to create blogs")
 	} else if (response.statusCode == 409) {
 		res.redirect("/404");
-	} else if (response.statusCode == 201) {
+		logger.error("unable to create blogs");
+	} else{
 		res.redirect("/dashboard");
+		logger.error("successfully created the blogs");
 	}
 });
 
-Router.post("/add", async (req, res) => {
-	const req_body = req.body;
+
+Router.get("/edit/:blog_id", async (req, res) => {
+	const blog_id = req.params.blog_id;
 	const user = res.locals.user;
 
-	console.log("req body update", req_body);
+	const response = await blogService.getBlog(user, blog_id);
 
-	console.log("user for update", user);
-
-	const response = await blogService.createBlog(user, req_body);
-
-	console.log("response from post add:", response);
-
-	if (response.statusCode == 422) {
+	if (response.statusCode == 409) {
 		res.redirect("/404");
-	} else if (response.statusCode == 409) {
-		res.redirect("/404");
-	} else if (response.statusCode == 201) {
-		res.render("dashboard", { blogs: response.blog, user: response.user });
+		logger.error("unable to get edited blog");
+	} else {
+		res.render("edit", {blog: response.blog});
+		logger.info("successfully fetched edited blog");
 	}
 });
 
-Router.post("/edit", async (req, res) => {
+Router.post("/edit/:req_id", async (req, res) => {
 	const req_body = req.body;
+
 	const user = res.locals.user;
 
-	console.log("req body update", req_body);
+	const req_id = req.params.req_id;
 
-	console.log("user for update", user);
-
-	const response = await blogService.updateBlog(user, req_body);
-
-	console.log("response from post add:", response);
+	const response = await blogService.updateBlog(req_id, req_body, user);
 
 	if (response.statusCode == 422) {
 		res.redirect("/404");
-	} else if (response.statusCode == 409) {
+		logger.error("unable to update blog");
+	} else if (response.statusCode == 406) {
 		res.redirect("/404");
-	} else if (response.statusCode == 201) {
-		res.render("dashboard", { blogs: response.blog, user: response.user });
+		logger.error("unable to update blog");
+	} else if (response.statusCode == 409 ) {
+		res.redirect("/404");
+		logger.error("unable to update blog");
+	} else {
+		res.redirect("/dashboard");
+		logger.info("successfully updated the blog");
 	}
 });
 
@@ -88,13 +121,37 @@ Router.post("/del/:req_id", async (req, res) => {
 	const user = res.locals.user;
 	const response = await blogService.deleteBlog(user, req_id);
 
+
 	if (response.statusCode == 422) {
 		res.redirect("/404");
+		logger.error("unable to delete blog");
 	} else if (response.statusCode == 406) {
 		res.redirect("/404");
+		logger.error("unable to deleted blog");
 	} else if (response.statusCode == 200) {
 		res.redirect("/dashboard");
+		logger.info("successfully deleted the blog");
 	}
 });
+
+Router.post("/publish/:req_id", async (req, res) => {
+	const req_id = req.params.req_id;
+
+	const user = res.locals.user;
+	const response = await blogService.PublishBlog(user, req_id);
+
+
+	if (response.statusCode == 422) {
+		res.redirect("/404");
+		logger.error("unable to publish the blog");
+	} else if (response.statusCode == 406) {
+		res.redirect("/404");
+		logger.error("unable to publish the blog");
+	} else if (response.statusCode == 200) {
+		res.redirect("/dashboard");
+		logger.info("successfully published the blog");
+	}
+});
+
 
 module.exports = Router;

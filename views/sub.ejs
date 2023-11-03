@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog</title>
-    <link rel="icon" type="image/png" href="./src/images/blog_logo.png">
-    <link href="./src/styles/global.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../src/images/blog_logo.png">
+    <link href="../src/styles/global.css" rel="stylesheet">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,45 +20,22 @@
             <a href="/" class="w-fit px-5 py-2 bg-my_blue text-white rounded-lg">Back</a>
             <% blogs.forEach(function(blog, i) { %>
                 <section class="flex flex-col gap-10">
-                    <h1 class="text-5xl font-playpen"><%= blog.title%></h1>
+                    <h1 class="text-5xl font-playpen capitalize"><%= blog.title%></h1>
                     <span class="flex justify-between">
-                        <p>Author</p>
-                        <p>Time Stamp | Reading time</p>
+                        <p class="capitalize">By <%= blog.author%></p>
+                        <p><%= blog.updatedAt.toDateString()%> | <%= blog.readTime%> read</p>
                     </span>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi eum maxime autem neque animi harum
-                        perspiciatis dolor
-                        quis, similique minus tempore, vero suscipit itaque, velit omnis voluptates numquam debitis consequatur!
-                        Aliquam
-                        quisquam incidunt odit explicabo atque porro modi iste dicta dolore a nobis totam sequi, quae debitis
-                        molestiae non
-                        alias reiciendis autem, fugit ad sed qui deserunt recusandae! Ullam ipsa inventore exercitationem nam
-                        maiores esse
-                        optio dolores numquam, possimus blanditiis dignissimos voluptatem consequatur voluptates adipisci eum
-                        officia vitae
-                        temporibus laudantium ipsam consequuntur veniam fugiat! Doloremque veniam ipsam sit qui reprehenderit,
-                        quod, ex
-                        earum, illum ad ea voluptatem saepe velit cumque vitae dignissimos culpa hic nihil ducimus iure quia
-                        voluptate
-                        iusto? Vero ad earum qui sit iusto tenetur architecto rem animi, sunt repellat error, id maiores quae
-                        sint nobis
-                        soluta, cupiditate aliquam? A consequuntur maxime facilis animi ab sunt optio possimus, voluptatibus,
-                        dolorem harum
-                        repudiandae vero rem inventore reprehenderit quos quis accusamus. Sequi, quasi fuga quas quidem corporis
-                        quod libero
-                        dolorem autem, numquam, ad beatae voluptate architecto! Officiis odio velit ipsum aspernatur hic officia
-                        mollitia,
-                        distinctio voluptatibus quisquam beatae similique consectetur sunt eaque nulla dolor expedita debitis
-                        aut eligendi
-                        libero eos nobis sequi quidem doloremque. Veritatis quasi nesciunt culpa fuga aut!</p>
-                    <span class="flex justify-between">
-                        <p>Read count</p>
-                        <p>State</p>
-                    </span>
-        
+                    <p><%= blog.body%></p>
                     <span class="flex gap-5">
-                        <p class="bg-my_blue py-2 px-5 rounded-full text-white w-fit">Tag</p>
-                        <p class="bg-my_blue py-2 px-5 rounded-full text-white w-fit">Tag</p>
-                        <p class="bg-my_blue py-2 px-5 rounded-full text-white w-fit">Tag</p>
+                        <% for (let i=0; i < blog.tags.length; i++) { %>
+                            <p class="bg-my_blue py-2 px-5 rounded-full text-white w-fit capitalize">
+                                <%= blog.tags[i] %>
+                            </p>
+                            <% } %>
+                    </span>
+                    <span class="flex justify-between">
+                        <p class="capitalize"><%= blog.readCount%> Views </p>
+                        <p class="capitalize"><%= blog.state%></p>
                     </span>
                 </section>
             <% }); %>

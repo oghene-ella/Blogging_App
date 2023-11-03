@@ -4,7 +4,8 @@
 	"description": "",
 	"main": "index.ejs",
 	"scripts": {
-		"blogDev": "nodemon main.js"
+		"blogDev": "nodemon main.js",
+		"build-css": "npx tailwindcss -i ./src/styles/local.css -o ./src/styles/global.css --watch"
 	},
 	"keywords": [],
 	"author": "",

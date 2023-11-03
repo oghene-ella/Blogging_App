@@ -39,17 +39,19 @@ const BlogSchema = new Schema({
 		default: 0,
 	},
 	readTime: {
-		type: Number,
+		type: String,
 		default: 0,
 	},
 	tags: {
-		type: Array,
+		type: [String],
 	},
 	createdAt: {
 		type: Date,
+		default: Date.now,
 	},
 	updatedAt: {
 		type: Date,
+		default: Date.now,
 	},
 });
 

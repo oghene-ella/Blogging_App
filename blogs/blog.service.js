@@ -2,6 +2,22 @@ const BlogModel = require("../models/blogModel");
 
 const createBlog = async (user, req_body) => {
 	try {
+
+		function readingTime(text) {
+			const words = text.split(/\s+/);
+			const wordCount = words.length;
+			let averageWPM = 200;
+			let calcSec;
+			let calcMin = wordCount / averageWPM;
+
+			if (calcMin < 1) {
+				calcSec = Math.floor(calcMin * 60);
+				return `${calcSec} sec`;
+			} else {
+				return `${calcMin} min`;
+			}
+		}
+
 		if (!req_body) {
 			return {
 				statusCode: 422,
@@ -11,22 +27,28 @@ const createBlog = async (user, req_body) => {
 		}
 		console.log("req body: ", req_body);
 
+		console.log("actual tags: ", req_body.tags)
+
 		const newBlog = await BlogModel.create({
 			title: req_body.title,
 			description: req_body.description,
-			author: req_body.author,
+			author: user.firstname,
 			body: req_body.body,
-			tags: [...req_body.tags],
+			readTime: readingTime(req_body.body),
+			// readCount: 0,
+			tags: req_body.tags,
 			userId: user._id,
+			createdAt: req_body.createdAt,
 		});
 
-		console.log("new blog: ", newBlog.tags)
+		console.log("new blog: ", newBlog)
 
 		return {
 			message: "Blog successfully created",
 			statusCode: 201,
 			success: true,
 			newBlog,
+			user,
 		};
 	} catch (err) {
 		console.log("error o:", err)
@@ -48,11 +70,8 @@ const deleteBlog = async (user, req_id) => {
 				success: false,
 			};
 		}
-		console.log("blog id:", req_id);
 
-		const deleteBlog = await BlogModel.findOneAndDelete(req_id);
-
-		console.log("del blog", deleteBlog);
+		const deleteBlog = await BlogModel.findByIdAndDelete(req_id);
 
 		if (!deleteBlog) {
 			return {
@@ -81,6 +100,49 @@ const deleteBlog = async (user, req_id) => {
 	}
 };
 
+const PublishBlog = async (user, req_id) => {
+	try {
+		if (!req_id) {
+			return {
+				statusCode: 422,
+				message: "No Blog to Delete",
+				success: false,
+			};
+		}
+
+		const publishBlog = await BlogModel.findByIdAndUpdate(req_id,
+			{
+				state: "published"
+			}
+		);
+
+		if (!publishBlog) {
+			return {
+				statusCode: 406,
+				message: "Unable to publish Blog",
+				success: false,
+			};
+		}
+
+		const BlogList = await BlogModel.find({ userId: user._id });
+
+
+		return {
+			statusCode: 200,
+			message: "Blog published successfully",
+			success: true,
+			BlogList,
+		};
+	} catch (err) {
+		return {
+			statusCode: 409,
+			message: "Something went wrong with deleting the blog, try again later.",
+			err,
+			success: false,
+		};
+	}
+};
+
 const getBlogs = async (user) => {
 	try {
 		const blog = await BlogModel.find({ userId: user._id });
@@ -91,6 +153,7 @@ const getBlogs = async (user) => {
 				message: "There are no blog's",
 				blog: blog,
 				user,
+				blogCount: 0,
 			};
 		}
 
@@ -100,6 +163,7 @@ const getBlogs = async (user) => {
 				message: null,
 				blog: blog,
 				user,
+				blogCount: blog.length,
 			};
 		}
 	} catch (error) {
@@ -113,19 +177,70 @@ const getBlogs = async (user) => {
 	}
 };
 
-const updateBlog = async ({ req_body, user }) => {
+const getBlog = async (user, blog_id) => {
+	try {
+		const getBlog = await BlogModel.findOne({
+			userId: user._id,
+			_id: blog_id,
+		});
+
+		return {
+			statusCode: 200,
+			message: "Blog was successfully retrieved",
+			blog: getBlog,
+			user,
+		};
+
+	} catch (error) {
+		return {
+			statusCode: 409,
+			message:
+				"Something went wrong with getting the blog list, try again later.",
+			error,
+			success: false,
+		};
+	}
+};
+
+const updateBlog = async (req_id, req_body, user) => {
+
+	function readingTime(text) {
+		const words = text.split(/\s+/);
+		const wordCount = words.length;
+		let averageWPM = 200;
+		let calcSec;
+		let calcMin = wordCount / averageWPM;
+
+		if (calcMin < 1) {
+			calcSec = Math.floor(calcMin * 60);
+			return `${calcSec} sec`;
+		} else {
+			return `${calcMin} min`;
+		}
+	}
+
 	try {
 		if (!req_body) {
 			return {
 				statusCode: 422,
-				message: "Add a Blog",
+				message: "Update your Blog",
 				success: false,
 			};
 		}
 
-		const updateBlog = await BlogModel.findByIdAndUpdate(user._id, {
-			status: user.status,
-		});
+		const updateBlog = await BlogModel.findByIdAndUpdate(
+			{ _id: req_id },
+			{
+				title: req_body.title,
+				description: req_body.description,
+				body: req_body.body,
+				author: user.firstname,
+				readTime: readingTime(req_body.body),
+				tags: req_body.tags,
+				updatedAt: req_body.updatedAt,
+			},
+		);
+
 
 		if (!updateBlog) {
 			return {
@@ -138,7 +253,8 @@ const updateBlog = async ({ req_body, user }) => {
 		return {
 			statusCode: 204,
 			message: "Blog has been Updated Successfully",
-			updateBlog: [updateBlog],
+			updateBlog: updateBlog,
+			user,
 		};
 	} catch (err) {
 		return {
@@ -150,15 +266,17 @@ const updateBlog = async ({ req_body, user }) => {
 	}
 };
 
-const getPublishedBlogs = async () => {
+const getPublishedBlogs = async (user) => {
 	try {
-		const blogs = await BlogModel.find({ state: "published"});
+		const blogs = await BlogModel.find({ userId: user._id, state: "published" });
 
 		if (blogs.length === 0) {
 			return {
 				statusCode: 200,
 				message: "There are no blog's",
 				blogs: blogs,
+				blogCount: 0,
+				user,
 			};
 		}
 
@@ -167,9 +285,10 @@ const getPublishedBlogs = async () => {
 				statusCode: 200,
 				message: null,
 				blogs: blogs,
+				blogCount: blogs.length,
+				user,
 			};
 		}
-
 	} catch (error) {
 		return {
 			statusCode: 409,
@@ -181,11 +300,42 @@ const getPublishedBlogs = async () => {
 	}
 };
 
+const getDraftBlogs = async (user) => {
+	try {
+		const blogs = await BlogModel.find({userId: user._id, state: "draft" });
+
+		if (blogs.length === 0) {
+			return {
+				statusCode: 200,
+				message: "There are no blog's",
+				blogs: blogs,
+				blogCount: 0,
+				user,
+			};
+		}
+
+		return {
+			statusCode: 200,
+			message: null,
+			blogs: blogs,
+			blogCount: blogs.length,
+			user,
+		};
+
+	} catch (error) {
+		return {
+			statusCode: 409,
+			message:
+				"Something went wrong with getting the drafted blog list, try again later.",
+			error,
+			success: false,
+		};
+	}
+};
+
 const getSinglePublishedBlogs = async (req_id) => {
 	try {
 		const blogList = await BlogModel.find({_id: req_id});
-
-		console.log("single blog", blogList);
 
 		return {
 			statusCode: 200,
@@ -204,11 +354,92 @@ const getSinglePublishedBlogs = async (req_id) => {
 	}
 };
 
+const getPublishedBlogsLandingPage = async (page, limit) => {
+	try {
+		const skip = (page - 1) * limit;
+
+		const blogs = await BlogModel.find({
+			state: "published",
+		})
+			.skip(skip)
+        	.limit(limit);
+
+		if (blogs.length === 0) {
+			return {
+				statusCode: 200,
+				message: "There are no blog's",
+				blogs: blogs,
+				blogCount: 0,
+			};
+		}
+
+		if (blogs.length != 0) {
+			return {
+				statusCode: 200,
+				message: null,
+				blogs: blogs,
+				blogCount: blogs.length,
+			};
+		}
+	} catch (error) {
+		return {
+			statusCode: 409,
+			message:
+				"Something went wrong with getting the published blog list, try again later.",
+			error,
+			success: false,
+		};
+	}
+};
+
+const searchBlog = async (req_query) => {
+	try {
+		const searchBlogs = await BlogModel.find({
+			$or: [
+				{ title: { $regex: req_query, $options: "i" } },
+				{ author: { $regex: req_query, $options: "i" } }, 
+				{ tags: { $in: [req_query] } },
+			],
+		});
+
+		console.log("the search blogs: ", searchBlogs);
+
+		if (searchBlogs.length === 0) {
+			return {
+				message: "No matching blogs found",
+				statusCode: 404,
+				success: true,
+				searchBlogs: [],
+			};
+		}
+
+		return {
+			message: "Blogs found",
+			statusCode: 200,
+			success: true,
+			searchBlogs,
+		};
+	} catch (err) {
+		console.error("Error:", err);
+		return {
+			message: "Something went wrong while searching blogs",
+			err,
+			statusCode: 500,
+			success: false,
+		};
+	}
+}
+
 module.exports = {
 	createBlog,
 	deleteBlog,
 	getBlogs,
+	getBlog,
 	updateBlog,
+	getDraftBlogs,
 	getPublishedBlogs,
 	getSinglePublishedBlogs,
+	PublishBlog,
+	getPublishedBlogsLandingPage,
+	searchBlog,
 };

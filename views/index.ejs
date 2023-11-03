@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Landing Page</title>
-    <link href="./src/styles/global.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="./src/images/blog_logo.png">
-    <link href="./src/styles/global.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../src/images/blog_logo.png">
+    <link href="../src/styles/global.css" rel="stylesheet">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,7 +18,7 @@
         <section class="w-full bg-bg_signup flex flex-col items-center p-5 gap-36">
             <nav class="w-11/12 flex justify-between ">
                 <span class="flex gap-4 sm:gap-20 items-center">
-                    <h1 class="text-my_blue font-semibold font-playpen text-xl">BlogIfy</h1>
+                    <a class="text-my_blue font-semibold font-playpen text-xl"  href="/">BlogIfy</a>
                     <p class="text-sm text-gray-800 font-semibold underline decoration-my_blue hidden md:block">Published blogs</p>
                 </span>
                 <span class="flex gap-5 sm:gap-10">
@@ -36,34 +35,48 @@
         </section>
 
         <main class="w-full h-fit flex flex-col items-center">
-            <section class="w-11/12 py-5 underline decoration-black flex flex-col gap-10">
-                <header class="text-my_blue font-semibold font-sora text-2xl">Published Blogs</header>
+            <section class="w-11/12 py-5 decoration-black flex flex-col gap-10">
+                <header class="flex flex-col sm:flex-row justify-between gap-5">
+                    <a href="/" class="text-my_blue font-semibold font-sora text-2xl underline">Published Blogs</a>
+                    <form class="flex items-center gap-3" action="/search" method="GET">
+                        <input type="search" placeholder="Search for a blog" name="search" class="border border-gray-300 py-2 px-2 rounded-md"/>
+                        <button type="submit" class="bg-my_blue text-white px-4 py-2 rounded-md">Search</button>
+                    </form>
+                </header>
 
-                <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 no-underline" >
+                <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10" >
                     <% blogs.forEach(function(blog, i) { %>
-                        <a class="no-underline border border-black p-4 rounded-lg flex flex-col gap-5 cursor-pointer" href="/published/<%= blog._id %>">
-                            <h1 class="font-playpen text-4xl no-underline"><%= blog.title%></h1>
-                            <p class="font-sora text-base text-gray-700">
+                        <section class="border border-gray-100 p-4 rounded-lg flex flex-col gap-5 shadow-lg">
+                            <h1 class="font-playpen text-3xl no-underline capitalize">
+                                <%= blog.title%>
+                            </h1>
+                            <p class="font-sora text-base text-gray-700 capitalize">
                                 <%= blog.description%>
                             </p>
-                            <p class="font-playpen">
-                                By <%= blog.author%>
-                            </p>
-                            <span class="flex gap-5">
-                                <% for (let i = 0; i < blog.tags.length; i++) { %>
-                                <p class="bg-my_blue text-white px-5 py-1 w-fit rounded-full capitalize">
-                                    <%= blog.tags[i] %>
+                            <span class="flex justify-between">
+                                <a href="/published/<%= blog._id %>" class="underline cursor-pointer">Read More </a>
+                                <p class="font-playpen capitalize">
+                                    By <%= blog.author%>
                                 </p>
-                                <% } %>
+                            </span>
+
+                            <span class="flex gap-5 ">
+                                <% for (let i=0; i < blog.tags.length; i++) { %>
+                                    <p class="bg-my_blue text-white px-5 py-1 w-fit rounded-full capitalize">
+                                        <%= blog.tags[i] %>
+                                    </p>
+                                    <% } %>
                             </span>
                             <span class="flex justify-between">
-                                <p>
-                                    <%= blog.readCount%>
-                                        min read
+                                <p class="capitalize">
+                                    <%= blog.readTime%>
+                                        read
                                 </p>
-                                <p class="text-gray-700 capitalize"><%= blog.state%></p>
+                                <p class="text-gray-700 capitalize">
+                                    <%= blog.state%>
+                                </p>
                             </span>
-                        </a>
+                        </section>
                     <% }); %>
                 </section>
             </section>
