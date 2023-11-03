@@ -4,9 +4,9 @@
 	"description": "",
 	"main": "index.ejs",
 	"scripts": {
-		"test": "jest --detectOpenHandles",
-		"blogDev": "nodemon main.js",
-		"build-css": "npx tailwindcss -i ./src/styles/local.css -o ./src/styles/global.css --watch"
+		"blogDev": "nodemon server.js",
+		"build-css": "npx tailwindcss -i ./src/styles/local.css -o ./src/styles/global.css --watch",
+		"test": "jest --detectOpenHandles"
 	},
 	"keywords": [],
 	"author": "Ellahhh",

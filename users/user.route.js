@@ -36,22 +36,22 @@ Router.post("/login", async (req, res) => {
         password, email, firstname
     })
 
-    if(response.statusCode == 404){
-        res.redirect("/");
-        logger.error("unable to login, invalid email or password");
+    if(response.statusCode == 200){
+        res.cookie("jwt", response.token);
+        res.redirect("/dashboard");
+        logger.info("Successfully logged in");
     }
-    else if (response.statusCode == 422) {
+    else if (response.statusCode == 404) {
 		res.redirect("/login");
-        logger.error("unable to login, incorrect email or password");
+        logger.error("unable to login, invalid email or password");
 	} 
     else if (response.statusCode == 401) {
 		res.redirect("/login");
         logger.error("unable to login, unauthorized user");
 	} 
     else {
-        res.cookie("jwt", response.token)
-        res.redirect("/dashboard");
-        logger.info("Successfully logged in");
+        res.redirect("/login");
+        logger.error("unable to login, incorrect email or password");
 	}
 })
 
