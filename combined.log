@@ -317,3 +317,5 @@
 {"level":"info","message":"Successfully logged in"}
 {"level":"error","message":"unable to login, invalid email or password"}
 {"level":"error","message":"Unable to connect to MongoDB"}
+{"level":"info","message":"Successfully running the server! :)"}
+{"level":"error","message":"Unable to connect to MongoDB"}
