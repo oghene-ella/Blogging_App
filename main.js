@@ -76,7 +76,7 @@ app.get("/search", async (req, res) => {
 			console.log(response, "my response");
 
 			if (response.statusCode == 409) {
-				res.redirect("/index");
+				res.render("index");
 				logger.info("you did not input a search query");
 			} else if (response.statusCode == 200) {
 				res.render("index", {
