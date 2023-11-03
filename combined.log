@@ -319,3 +319,4 @@
 {"level":"error","message":"Unable to connect to MongoDB"}
 {"level":"info","message":"Successfully running the server! :)"}
 {"level":"error","message":"Unable to connect to MongoDB"}
+{"level":"info","message":"Successfully running the server! :)"}
